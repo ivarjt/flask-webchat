@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Chat Room</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div id="user-info">
+        <label for="username">Your Name:</label>
+        <input type="text" id="username" placeholder="Enter your name">
+    </div>
+    <ul id="message-list"></ul>
+    <div id="message-input-container">
+        <input type="text" id="message-input" placeholder="Enter your message">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+        var username = '';
+
+        document.getElementById('username').addEventListener('change', function() {
+            username = this.value;
+        });
+
+        document.getElementById('message-input').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+                event.preventDefault(); 
+            }
+        });
+
+        socket.on('message', function(data) {
+            var ul = document.getElementById('message-list');
+            var li = document.createElement('li');
+            li.appendChild(document.createTextNode(data.sender + ': ' + data.message));
+            ul.appendChild(li);
+        });
+
+        function sendMessage() {
+            var input = document.getElementById('message-input');
+            var message = input.value;
+            input.value = '';
+            socket.emit('message', { sender: username, message: message });
+        }
+    </script>
+</body>
+</html>
