@@ -1,9 +1,5 @@
-from app import app
+from app import app, admin, User, db
+from flask_admin.contrib.sqla import ModelView
 
-@app.route("/admin/dashboard")
-def admin_dashboard():
-    return "admin dashboard"
-
-@app.route("/admin/profile")
-def admin_profile():
-    return "admin profile"
+# Adds the admin page to edit users
+admin.add_view(ModelView(User, db.session))
