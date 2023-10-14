@@ -1,24 +1,41 @@
-from flask import Flask, g
+# Non Local Imports 
+from flask import Flask
 from flask_socketio import SocketIO
-import sqlite3
+from flask_sqlalchemy import SQLAlchemy
 
+# Flask app config
 app = Flask(__name__)
 
-DATABASE = 'database.db'
-
+# SocketIO
 app.config['SECRET_KEY'] = 'secret_key'
 socketio = SocketIO(app)
 
-def get_db():
-    db = getattr(g, '_database', None)
-    if db is None:
-        db = g._database = sqlite3.connect(DATABASE)
-    return db
+# SQLAlchemy
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite3"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False # To reduse some terminal spam, could be turned to True if needed for debugging
+db = SQLAlchemy(app)
 
-@app.teardown_appcontext
-def close_connection(exception):
-    db = getattr(g, '_database', None)
-    if db is not None:
-        db.close()
+#---------------------
+# Local Imports Below
+#---------------------
 
+# Models
+from .models import User
+
+# Views
 from app import views, admin_views, login_views
+
+"""
+    
+    from app import app, db, User
+
+app_ctx = app.app_context()
+app_ctx.push()
+
+db.create_all()
+
+app_ctx.pop()
+
+User.query.all()
+
+"""
