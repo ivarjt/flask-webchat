@@ -3,6 +3,8 @@ from flask import Flask
 from flask_socketio import SocketIO
 from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
+from flask_bcrypt import Bcrypt
+from flask_login import LoginManager
 
 # Flask app config
 app = Flask(__name__)
@@ -20,6 +22,18 @@ db = SQLAlchemy(app)
 admin = Admin() 
 admin.init_app(app)
 
+# Bcrypt
+bcrypt = Bcrypt(app)
+
+# Login Manager
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
 #---------------------
 # Local Imports Below
 #---------------------
@@ -29,18 +43,3 @@ from .models import User
 
 # Views
 from app import views, admin_views, login_views
-
-"""
-    
-    from app import app, db, User
-
-app_ctx = app.app_context()
-app_ctx.push()
-
-db.create_all()
-
-app_ctx.pop()
-
-User.query.all()
-
-"""
