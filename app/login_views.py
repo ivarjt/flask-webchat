@@ -5,7 +5,6 @@ from .models import User
 from flask_login import login_user, logout_user, login_required
 
 
-
 @app.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
@@ -27,7 +26,8 @@ def register():
         hashed_password = bcrypt.generate_password_hash(form.password.data)
         new_user = User(username=form.username.data,
                         password=hashed_password,
-                        email=form.email.data)
+                        email=form.email.data,
+                        is_superuser=0)
         
         db.session.add(new_user)
         db.session.commit()
