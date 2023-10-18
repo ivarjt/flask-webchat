@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+</head>
+<body>
+    <h1>User Profile</h1>
+    {% if user %}
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Date Joined:</strong> {{ user.date_joined }}</p>
+        <p><strong>Is Superuser:</strong> {{ user.is_superuser }}</p>
+        
+        {% if current_user and current_user.username == user.username %}
+            <p><strong>Is Logged in as this User:</strong> 1</p>
+        {% else %}
+            <p><strong>Is Logged in as this User:</strong> 0</p>
+        {% endif %}
+    {% else %}
+        <p>User not found.</p>
+    {% endif %}
+
+    <p style="color: limegreen;">1 = True</p>
+    <p style="color: red;">0 = False</p>
+</body>
+</html>
