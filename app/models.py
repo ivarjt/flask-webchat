@@ -20,4 +20,4 @@ class User(db.Model, UserMixin):
     
     # Dunder method that returns a string representation of all users
     def __repr__(self):
-        return f"<User: id={self.id}, name={self.name}, email={self.email}, date_joined={self.date_joined}>, is_superuser={self.is_superuser}\n"
+        return f"<User: id={self.id}, name={self.username}, email={self.email}, date_joined={self.date_joined}>, is_superuser={self.is_superuser}\n"
