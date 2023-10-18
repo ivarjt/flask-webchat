@@ -7,8 +7,9 @@
 <body>
     <div id="user-info">
         <label for="username">Your Name:</label>
-        <input type="text" id="username" placeholder="Enter your name">
-    </div>
+        <span id="username">{{ username }}</span>
+    </div>    
+
     <ul id="message-list"></ul>
     <div id="message-input-container">
         <input type="text" id="message-input" placeholder="Enter your message">
@@ -17,33 +18,29 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
     <script>
-        var socket = io.connect('http://' + document.domain + ':' + location.port);
-        var username = '';
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+    var username = '{{ username }}'; // Set the username from the server-side variable.
 
-        document.getElementById('username').addEventListener('change', function() {
-            username = this.value;
-        });
-
-        document.getElementById('message-input').addEventListener('keydown', function(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
-                event.preventDefault(); 
-            }
-        });
-
-        socket.on('message', function(data) {
-            var ul = document.getElementById('message-list');
-            var li = document.createElement('li');
-            li.appendChild(document.createTextNode(data.sender + ': ' + data.message));
-            ul.appendChild(li);
-        });
-
-        function sendMessage() {
-            var input = document.getElementById('message-input');
-            var message = input.value;
-            input.value = '';
-            socket.emit('message', { sender: username, message: message });
+    document.getElementById('message-input').addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            sendMessage();
+            event.preventDefault(); 
         }
+    });
+
+    socket.on('message', function(data) {
+        var ul = document.getElementById('message-list');
+        var li = document.createElement('li');
+        li.appendChild(document.createTextNode(data.sender + ': ' + data.message));
+        ul.appendChild(li);
+    });
+
+    function sendMessage() {
+        var input = document.getElementById('message-input');
+        var message = input.value;
+        input.value = '';
+        socket.emit('message', { sender: username, message: message });
+    }
     </script>
     <br>
     <a href="{{url_for('login')}}">Login Page</a><br>
