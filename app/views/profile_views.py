@@ -1,6 +1,6 @@
 from app import app
 from flask import render_template
-from .models import User
+from ..models import User
     
 @app.route('/user/<username>')
 def profile(username):
