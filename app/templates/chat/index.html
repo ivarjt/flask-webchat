@@ -38,13 +38,14 @@
     function sendMessage() {
         var input = document.getElementById('message-input');
         var message = input.value;
-        input.value = '';
-        socket.emit('message', { sender: username, message: message });
+        if (message !== '') {
+            input.value = '';
+            socket.emit('message', { sender: username, message: message });
+        }
     }
     </script>
     <br>
-    <a href="{{url_for('login')}}">Login Page</a><br>
+    
     <a href="{{url_for('register')}}">Register Page</a><br>
-
 </body>
 </html>

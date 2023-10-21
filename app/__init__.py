@@ -42,4 +42,4 @@ def load_user(user_id):
 from .models import User
 
 # Views
-from app import views, admin_views, login_views, profile_views, error_views
+from .views import chat_views, admin_views, login_views, profile_views, error_views
