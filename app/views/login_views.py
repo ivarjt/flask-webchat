@@ -1,4 +1,4 @@
-from app import app, bcrypt, db, login_manager
+from app import app, bcrypt, db
 from flask import render_template, redirect, url_for
 from ..forms import LoginForm, RegisterForm
 from ..models import User
@@ -14,7 +14,7 @@ def login():
         if user:
             if bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user)
-                return redirect(url_for("dashboard"))
+                return redirect(url_for("home"))
     
     return render_template("authentication/login.html", form=form)
 
@@ -23,6 +23,7 @@ def register():
     form = RegisterForm()
     
     if form.validate_on_submit():
+
         hashed_password = bcrypt.generate_password_hash(form.password.data)
         new_user = User(username=form.username.data,
                         password=hashed_password,
@@ -41,7 +42,3 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for("login"))
-
-@app.route("/dashboard", methods=["GET", "POST"])
-def dashboard():
-    return render_template("authentication/dashboard.html")

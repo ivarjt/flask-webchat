@@ -2,11 +2,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Document</title>
 </head>
 <body>
-    <h1>Hello you are logged in.</h1>
-    <br>
+    <h1>Homepage</h1>
+
+
+    <a href="{{url_for('register')}}">Press here to register</a>
+    <br><br>
+    <a href="{{url_for('login')}}">Press here to login!</a>
+    <br><br>
     <a href="{{url_for('logout')}}">Press here to logout!</a>
     <br><br>
     <a href="{{url_for('chat')}}">Press here to enter chatroom!</a>
