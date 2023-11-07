@@ -1,23 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
     <style>
         p {
             text-align: center;
-            font-size: 50px;
+            font-size: 30px;
         }
         h1 {
             text-align: center;
-            font-size: 150px;
+            font-size: 50px;
         }
 
         h3{
             text-align: center;
         }
+
+        #moose{
+            margin-top: 80px;
+            width: 250px;
+            height: 200px;
+            
+        }
+        #forest1 {
+            width: 1536px;
+            height: 239px;
+        }
+        #forest{
+            width: 1536px;
+            height: 199px;
+        }
+        html, body{
+            margin: 0;
+            padding: 0;
+        }
+
+
+
     </style>
 </head>
 <body>
     <main>
+        <div style="text-align: center;">
+            <img id="moose" src="../../static/moose.gif" alt="">
+        </div>
         {% block content %}{% endblock %}
     </main>
 </body>
