@@ -17,7 +17,7 @@ python run.py
 ```
 
 ## Deployment
-Change debug=True to debug=False in [run.py](https://github.com/ivarjt/flask-webchat/blob/main/run.py)
+Change debug=True to debug=False in [run.py](https://github.com/ivarjt/flask-webchat/blob/main/run.py) if you wan't to run the project in production mode, otherwise leave it as is.
 
 ## Contributing
 We do not accept direct contributions, but feel free to fork the project and work on your own version.
