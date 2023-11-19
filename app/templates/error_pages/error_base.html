@@ -48,7 +48,7 @@
 <body>
     <main>
         <div style="text-align: center;">
-            <img id="moose" src="../../static/moose.gif" alt="">
+            <img id="moose" src="{{ url_for('static', filename='moose.gif') }}" alt="">
         </div>
         {% block content %}{% endblock %}
     </main>
