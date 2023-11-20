@@ -23,7 +23,9 @@ Change debug=True to debug=False in [run.py](https://github.com/ivarjt/flask-web
 We do not accept direct contributions, but feel free to fork the project and work on your own version.
 
 ## Authors
-Ivar Thor, Emil Holm Andersson & Lucas Pace
+- [Ivar Thor](https://github.com/ivarjt)
+- [Emil Holm Andersson](https://github.com/Emil-andersson1)
+- [Lucas Pace](https://github.com/rrex20)
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/ivarjt/flask-webchat/blob/main/LICENSE) file for details
