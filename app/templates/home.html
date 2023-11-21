@@ -3,19 +3,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="{{ url_for('static', filename='MooseFavicon.png') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='home.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Home</title>
 </head>
 <body>
-    <h1>Homepage</h1>
+    <header>
+        <div class="topnav" id="myTopnav">
+            <a href="#" class="active">Logo</a>
+            <a href="#"class="nav-center">About</a>
+            <a href="#"class="nav-center">Safety</a>
+            <a href="#" class="nav-center">Contact</a>
+            <a href="#" class="split-right" >Login</a>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+              <i class="fa fa-bars"></i>
+            </a>
+          </div>
+    </header>
 
-
-    <a href="{{url_for('register')}}">Press here to register</a>
-    <br><br>
-    <a href="{{url_for('login')}}">Press here to login!</a>
-    <br><br>
-    <a href="{{url_for('logout')}}">Press here to logout!</a>
-    <br><br>
-    <a href="{{url_for('chat')}}">Press here to enter chatroom!</a>
-
+    <div class="main">
+        <main>
+            MAIN CONTENT
+        </main>
+    </div>
+    
+    <footer>
+        FOOTER
+    </footer>
 </body>
+
+<script>
+    /* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
+function myFunction() {
+  var x = document.getElementById("myTopnav");
+  if (x.className === "topnav") {
+    x.className += " responsive";
+  } else {
+    x.className = "topnav";
+  }
+}
+</script>
+
 </html>
