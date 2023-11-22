@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handle Friend Requests</title>
+</head>
+<body>
+    <h1>Handle Friend Requests</h1>
+
+    {% if incoming_requests %}
+        <ul>
+            {% for request in current_user.get_incoming_friend_requests() %}
+    <div>
+        From: {{ request.sender.username }}
+        <form method="post" action="/accept_friend_request/{{ request.id }}">
+            <button type="submit">Accept</button>
+        </form>
+    </div>
+{% endfor %}
+
+        </ul>
+    {% else %}
+        <p>No incoming friend requests.</p>
+    {% endif %}
+</body>
+</html>
