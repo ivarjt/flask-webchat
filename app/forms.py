@@ -51,3 +51,13 @@ class LoginForm(FlaskForm):
     email = StringField("Email", validators=[InputRequired(), Length(max=100)], render_kw={"placeholder": "Email"})
     password = PasswordField("Password", validators=[InputRequired(), Length(min=8, max=100)], render_kw={"placeholder": "Password"})
     submit = SubmitField("Login")
+
+class FriendRequestForm(FlaskForm):
+    username = StringField("Username", validators=[InputRequired(), Length(min=5, max=20)], render_kw={"placeholder": "Username"})
+    submit = SubmitField("Send Friend Request")
+
+    def validate_username(self, username):
+        user = User.query.filter_by(username=username.data).first()
+        if user is None:
+            raise ValidationError("This username does not exist. Please try again.")
+    
