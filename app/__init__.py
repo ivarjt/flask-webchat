@@ -6,6 +6,10 @@ from flask_admin import Admin
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 
+# Global Variables
+RUN_IN_DEBUG_MODE = True # Set to False when deploying to production
+HOST = "0.0.0.0"
+
 # Flask app config
 app = Flask(__name__)
 
