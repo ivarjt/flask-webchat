@@ -1,10 +1,16 @@
-from app import admin, User, db
+from app import admin, User, db, Friendship
 from flask_admin.contrib.sqla import ModelView
 from app import app
 from flask_login import current_user
 from flask import request, abort
 
 def is_superuser():
+    """
+    Checks if the current user is a superuser.
+
+    Returns:
+        bool: True if the current user is a superuser or if the superuser status of a user is updated successfully, False otherwise.
+    """
     if not current_user.is_superuser:
         return False
 
@@ -26,7 +32,9 @@ class CustomModelView(ModelView):
             abort(403)
 
 admin.add_view(CustomModelView(User, db.session))
+admin.add_view(CustomModelView(Friendship, db.session))
 
+#TODO: REMOVE THIS AT SOME POINT
 @app.route("/admin/test", methods=['GET', 'POST'])
 def admin_test():
-    return "hello"
+    return "test"

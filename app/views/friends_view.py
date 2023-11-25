@@ -42,6 +42,6 @@ def handle_friend_request():
     incoming_requests = current_user.get_incoming_friend_requests()
     return render_template("friends/handle_friend_request.html", incoming_requests=incoming_requests)
 
-@app.route("/success")
+@app.route("/success") #temporary
 def success():
     return render_template("friends/success.html")

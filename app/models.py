@@ -3,8 +3,6 @@ from datetime import datetime
 from flask_login import UserMixin
 from sqlalchemy.orm import relationship
 
-
-
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
@@ -24,6 +22,7 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f"<User: id={self.id}, name={self.username}, email={self.email}, date_joined={self.date_joined}>, is_superuser={self.is_superuser}\n"
     
+    # Function to get incoming friend requests for a user
     def get_incoming_friend_requests(self):
         return Friendship.query.filter_by(receiver_id=self.id, status='pending').all()
     
@@ -34,6 +33,7 @@ class Friendship(db.Model):
     receiver_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     status = db.Column(db.String(20), nullable=False, default="pending")  # 'pending', 'accepted', 'rejected'
 
+    # Define relationships between sender and receiver and User model
     sender = relationship("User", foreign_keys=[sender_id])
     receiver = relationship("User", foreign_keys=[receiver_id])
 
@@ -57,6 +57,15 @@ class Friendship(db.Model):
 
     
     def accept_friend_request(request_id):
+        """
+        Accept a friend request.
+
+        Args:
+            request_id (int): The ID of the friend request.
+
+        Returns:
+            str: A message indicating whether the friend request was accepted or not.
+        """
         friend_request = Friendship.query.get(request_id)
         
         if friend_request:
@@ -66,12 +75,17 @@ class Friendship(db.Model):
             return "Friend request accepted."
         else:
             return "Friend request not found."
-
-    
-    def reject_friend_request():
-        pass
     
     def get_friends(user_id):
+        """
+        Get the usernames of the friends of a user.
+
+        Args:
+            user_id (int): The ID of the user.
+
+        Returns:
+            list: A list of usernames of the user's friends.
+        """
         friends = Friendship.query.filter(
                     (Friendship.sender_id == user_id) | (Friendship.receiver_id == user_id),
                     Friendship.status == "accepted"
@@ -85,5 +99,26 @@ class Friendship(db.Model):
     
     @staticmethod
     def convert_username_to_user_id(username):
+        """
+            Convert a username to a user ID.
+
+            Args:
+                username (str): The username to convert.
+
+            Returns:
+                int: The user ID corresponding to the username.
+            """
         user = User.query.filter_by(username=username).first()
         return user.id
+    
+    def reject_friend_request():
+        """
+        TODO: WRITE THIS COMMENT WHEN YOU IMPLEMENT THE METHOD
+        """
+        pass
+    
+    def remove_friend(): # update status to rejected (comment)
+        """
+        TODO: WRITE THIS COMMENT WHEN YOU IMPLEMENT THE METHOD
+        """
+        pass

@@ -37,11 +37,15 @@ class RegisterForm(FlaskForm):
     password = PasswordField("Password", validators=[InputRequired(), Length(min=8, max=100), validate_password], render_kw={"placeholder": "Password"})
     submit = SubmitField("Register")
 
+    # Validate if the username is already taken
+    # If a user with the same username exists, raise a validation error
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
         if user is not None:
             raise ValidationError("This username is already taken. Please choose a different one.")
 
+    # Validate if the email is already registered
+    # If an account with the same email exists, raise a validation error
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user:
@@ -56,6 +60,9 @@ class FriendRequestForm(FlaskForm):
     username = StringField("Username", validators=[InputRequired(), Length(min=5, max=20)], render_kw={"placeholder": "Username"})
     submit = SubmitField("Send Friend Request")
 
+
+    # Validate if the username is already taken
+    # If a user with the same username exists, raise a validation error
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
         if user is None:

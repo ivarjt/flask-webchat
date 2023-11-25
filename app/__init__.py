@@ -1,4 +1,6 @@
+#-------------------
 # Non Local Imports 
+#-------------------
 from flask import Flask
 from flask_socketio import SocketIO
 from flask_sqlalchemy import SQLAlchemy
@@ -43,7 +45,7 @@ def load_user(user_id):
 #---------------------
 
 # Models
-from .models import User
+from .models import User, Friendship
 
 # Views
 from .views import chat_views, admin_views, login_views, profile_views, error_views, friends_view, views
