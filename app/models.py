@@ -111,11 +111,26 @@ class Friendship(db.Model):
         user = User.query.filter_by(username=username).first()
         return user.id
     
-    def reject_friend_request():
+    def reject_friend_request(request_id):
         """
-        TODO: WRITE THIS COMMENT WHEN YOU IMPLEMENT THE METHOD
+        Reject a friend request.
+
+        Args:
+            request_id (int): The ID of the friend request to reject.
+
+        Returns:
+            str: A message indicating the result of the rejection.
         """
-        pass
+
+        friend_request = Friendship.query.get(request_id)
+        
+        if friend_request:
+            friend_request.status = "rejected"
+            db.session.commit()
+            
+            return "Friend request rejected."
+        else:
+            return "Friend request not found."
     
     def remove_friend(): # update status to rejected (comment)
         """

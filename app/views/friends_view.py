@@ -30,6 +30,20 @@ def accept_friend_request(request_id):
     # Redirect the user to the appropriate page
     return redirect(url_for('home'))
 
+@app.route('/reject_friend_request/<int:request_id>', methods=['POST'])
+def reject_friend_request(request_id):
+    # Call the reject_friend_request function
+    result = Friendship.reject_friend_request(request_id)
+
+    # Flash a message to indicate the result (you can customize this part)
+    if result == "Friend request rejected.":
+        flash("Friend request rejected.", "success")
+    else:
+        flash("Friend request not found.", "error")
+
+    # Redirect the user to the appropriate page
+    return redirect(url_for('home'))
+
 @app.route("/list_friends")
 def list_friends():
     friends = Friendship.get_friends(current_user.id)

@@ -16,7 +16,11 @@
         <form method="post" action="/accept_friend_request/{{ request.id }}">
             <button type="submit">Accept</button>
         </form>
+        <form method="post" action="/reject_friend_request/{{ request.id }}">
+            <button type="submit">Reject</button>
+        </form>
     </div>
+    
 {% endfor %}
 
         </ul>
