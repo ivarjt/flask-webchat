@@ -6,8 +6,10 @@ from flask_login import current_user
 
 @app.route("/send_friend_request", methods=["GET", "POST"])
 def send_friend_request():
+    # Create a form instance
     form = FriendRequestForm()
     
+    # Process the form data if the request method is POST
     if form.validate_on_submit():
         friendship_instance = Friendship()
         receiver_id = Friendship.convert_username_to_user_id(form.username.data)
@@ -21,7 +23,7 @@ def accept_friend_request(request_id):
     # Call the accept_friend_request function
     result = Friendship.accept_friend_request(request_id)
 
-    # Flash a message to indicate the result (you can customize this part)
+    # Flash a message to indicate the result
     if result == "Friend request accepted.":
         flash("Friend request accepted.", "success")
     else:
@@ -35,13 +37,13 @@ def reject_friend_request(request_id):
     # Call the reject_friend_request function
     result = Friendship.reject_friend_request(request_id)
 
-    # Flash a message to indicate the result (you can customize this part)
+    # Flash a message to indicate the result
     if result == "Friend request rejected.":
         flash("Friend request rejected.", "success")
     else:
         flash("Friend request not found.", "error")
 
-    # Redirect the user to the appropriate page
+    # Redirects the user
     return redirect(url_for('home'))
 
 @app.route("/handle_friend_request")
@@ -49,7 +51,7 @@ def handle_friend_request():
     incoming_requests = current_user.get_incoming_friend_requests()
     return render_template("friends/handle_friend_request.html", incoming_requests=incoming_requests)
 
-@app.route("/success") #temporary
+@app.route("/success") #FIXME: temporary
 def success():
     return render_template("friends/success.html")
 
@@ -63,12 +65,13 @@ def list_friends():
 @app.route("/remove_friend/<string:friend>", methods=["POST"])
 def remove_friend(friend):
 
+    # Convert the username to a user ID
     friend = Friendship.convert_username_to_user_id(friend)
 
     # Call the remove_friend function
     result = Friendship.remove_friend(current_user.id, friend)
 
-    # Flash a message to indicate the result (you can customize this part)
+    # Flash a message to indicate the result
     if result == "Friend removed.":
         flash("Friend removed.", "success")
     else:
