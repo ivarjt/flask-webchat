@@ -2,17 +2,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>List Friends</title>
+    <title>Remove Friend</title>
 </head>
 <body>
     <h1>Your Friends</h1>
-
+    <div>
     <!-- Display the list of friends here -->
     <ul>
         {% for friend in friends %}
-            <li>{{ friend }}</li>
+            <li>{{ friend }}
+
+            <form method="post" action="/remove_friend/{{ friend }}">
+                <button type="submit">Remove</button>
+            </li>
         {% endfor %}
     </ul>
+    </div>
+
 
     <a href="/">Back to Home</a>
 </body>

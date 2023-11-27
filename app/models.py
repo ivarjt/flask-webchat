@@ -31,7 +31,7 @@ class Friendship(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     sender_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     receiver_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
-    status = db.Column(db.String(20), nullable=False, default="pending")  # 'pending', 'accepted', 'rejected'
+    status = db.Column(db.String(20), nullable=False, default="pending")  # 'pending', 'accepted', 'rejected', 'removed'
 
     # Define relationships between sender and receiver and User model
     sender = relationship("User", foreign_keys=[sender_id])
@@ -132,8 +132,19 @@ class Friendship(db.Model):
         else:
             return "Friend request not found."
     
-    def remove_friend(): # update status to rejected (comment)
+    def remove_friend(current_user, friend):
         """
-        TODO: WRITE THIS COMMENT WHEN YOU IMPLEMENT THE METHOD
+        Remove a friend from the user's friend list.
         """
-        pass
+
+        print("hejsan")
+
+        # Find the friendship record to remove
+        friend_request = Friendship.query.filter_by(sender_id=current_user, receiver_id=friend, status="accepted").first()
+
+        # Update the status to "removed" and commit the changes
+        friend_request.status = "removed"
+        db.session.commit()
+        return "Friend removed."
+        
+        
