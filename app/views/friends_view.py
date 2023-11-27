@@ -44,13 +44,6 @@ def reject_friend_request(request_id):
     # Redirect the user to the appropriate page
     return redirect(url_for('home'))
 
-@app.route("/list_friends")
-def list_friends():
-    friends = Friendship.get_friends(current_user.id)
-
-    # Render the template with the list of friends
-    return render_template("friends/list_friends.html", friends=friends)
-
 @app.route("/handle_friend_request")
 def handle_friend_request():
     incoming_requests = current_user.get_incoming_friend_requests()
@@ -59,3 +52,26 @@ def handle_friend_request():
 @app.route("/success") #temporary
 def success():
     return render_template("friends/success.html")
+
+@app.route("/list_friends")
+def list_friends():
+    friends = Friendship.get_friends(current_user.id)
+
+    # Render the template with the list of friends
+    return render_template("friends/remove_friend.html", friends=friends)
+
+@app.route("/remove_friend/<string:friend>", methods=["POST"])
+def remove_friend(friend):
+
+    friend = Friendship.convert_username_to_user_id(friend)
+
+    # Call the remove_friend function
+    result = Friendship.remove_friend(current_user.id, friend)
+
+    # Flash a message to indicate the result (you can customize this part)
+    if result == "Friend removed.":
+        flash("Friend removed.", "success")
+    else:
+        flash("Friend not found.", "error")
+
+    return redirect(url_for('success'))
