@@ -134,17 +134,23 @@ class Friendship(db.Model):
     
     def remove_friend(current_user, friend):
         """
-        Remove a friend from the user's friend list.
+        Remove a friend from the current user's friend list.
+
+        Args:
+            current_user (int): The ID of the current user.
+            friend (int): The ID of the friend to be removed.
+
+        Returns:
+            str: A message indicating that the friend has been removed.
         """
 
-        print("hejsan")
-
-        # Find the friendship record to remove
+        # Find the friendship record using current_user and friend ID's
         friend_request = Friendship.query.filter_by(sender_id=current_user, receiver_id=friend, status="accepted").first()
 
         # Update the status to "removed" and commit the changes
         friend_request.status = "removed"
         db.session.commit()
+        
         return "Friend removed."
         
         
