@@ -17,7 +17,7 @@ python run.py
 ```
 
 ## Deployment
-Change RUN_IN_DEBUG_MODE=True to RUN_IN_DEBUG_MODE=False in [`__init__.py`](https://github.com/ivarjt/flask-webchat/blob/main/app/__init__.py) if you want to run the project in production mode, otherwise leave it as is.
+Change `RUN_IN_DEBUG_MODE=True` to `RUN_IN_DEBUG_MODE=False` in [`__init__.py`](https://github.com/ivarjt/flask-webchat/blob/main/app/__init__.py) if you want to run the project in production mode, otherwise leave it as is.
 
 
 ## Contributing
