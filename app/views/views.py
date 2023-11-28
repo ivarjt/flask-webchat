@@ -19,3 +19,7 @@ def status():
     else:
         message = 'You are not logged in'
     return message
+
+@app.route("/new_home")
+def new_home():
+    return render_template("new_home.html")
