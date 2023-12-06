@@ -6,12 +6,15 @@ from flask_login import current_user
 from wtforms.validators import ValidationError
 
 @app.route("/send_friend_request", methods=["GET", "POST"])
-def send_friend_request():
+def send_friend_request(): #TODO: This could possibly be cleaned up by returning from models.py
     form = FriendRequestForm()
 
     if form.validate_on_submit():
+        #TODO: REMOVE DEBUG PRINTS
         receiver_id = Friendship.convert_username_to_user_id(form.username.data)
+        print(f"Receiver ID: {receiver_id}")
         receiver = User.query.get(receiver_id)
+        print(f"Receiver Object: {receiver}")
 
         if receiver is not None:  # Ensure the receiver exists
             if current_user.id == receiver_id:
