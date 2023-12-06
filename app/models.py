@@ -45,15 +45,29 @@ class Friendship(db.Model):
             sender_id (int): The user ID sending the friend request.
             receiver (User): The user receiving the friend request.
         """
+        if sender_id == receiver.id:
+            print("Cannot send friend request to oneself.")
+            return
+
         existing_request = Friendship.query.filter_by(sender_id=sender_id, receiver_id=receiver.id).first()
 
         if existing_request:
-            print("Friend request already sent.")
+            if existing_request.status == "rejected":
+                existing_request.status = "pending"
+                db.session.commit()
+                print("Friend request sent again.")
+            else:
+                print("Friend request already sent.")
+            return
+
+        user = User.query.get(receiver.id)
+        if not user:
+            print("User doesn't exist.")
             return
 
         new_request = Friendship(sender_id=sender_id, receiver_id=receiver.id, status="pending")
         db.session.add(new_request)
-        db.session.commit()        
+        db.session.commit()
 
     
     def accept_friend_request(request_id):
@@ -145,12 +159,20 @@ class Friendship(db.Model):
         """
 
         # Find the friendship record using current_user and friend ID's
-        friend_request = Friendship.query.filter_by(sender_id=current_user, receiver_id=friend, status="accepted").first()
+        friend_request = Friendship.query.filter(
+            (Friendship.sender_id == current_user) & (Friendship.receiver_id == friend) |
+            (Friendship.sender_id == friend) & (Friendship.receiver_id == current_user),
+            Friendship.status == "accepted"
+        ).first()
 
-        # Update the status to "removed" and commit the changes
-        friend_request.status = "removed"
-        db.session.commit()
-        
-        return "Friend removed."
+        if friend_request:
+            # Delete the friendship record from the database
+            db.session.delete(friend_request)
+            db.session.commit()
+
+            return "Friend removed."
+        else:
+            return "Friend not found."
+
         
         
