@@ -31,13 +31,13 @@ class Friendship(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     sender_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     receiver_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
-    status = db.Column(db.String(20), nullable=False, default="pending")  # 'pending', 'accepted', 'rejected', 'removed'
+    status = db.Column(db.String(20), nullable=False, default="pending")  # 'pending', 'accepted', 'rejected'
 
     # Define relationships between sender and receiver and User model
     sender = relationship("User", foreign_keys=[sender_id])
     receiver = relationship("User", foreign_keys=[receiver_id])
 
-    def send_friend_request(self, sender_id, receiver):
+    def send_friend_request(self, sender_id, receiver): #FIXME: Check the weird empty returns
         """
         Send a friend request from the sender to the receiver.
 
@@ -49,11 +49,32 @@ class Friendship(db.Model):
             print("Cannot send friend request to oneself.")
             return
 
+        existing_receiver = User.query.get(receiver.id)
+        #TODO: REMOVE DEBUG PRINTS
+        print("-"*50)
+        print(existing_receiver)
+        print("-"*50)
+        if not existing_receiver:
+            print("Receiver does not exist.")
+            return "Receiver does not exist."
+        
         existing_request = Friendship.query.filter_by(sender_id=sender_id, receiver_id=receiver.id).first()
+        existing_request_reversed = Friendship.query.filter_by(sender_id=receiver.id, receiver_id=sender_id).first()
+
 
         if existing_request:
             if existing_request.status == "rejected":
                 existing_request.status = "pending"
+                db.session.commit()
+                print("Friend request sent again.")
+            else:
+                print("Friend request already sent.")
+            return
+        
+        #TODO: This wont return anything to the user on the screen
+        if existing_request_reversed:
+            if existing_request_reversed.status == "rejected":
+                existing_request_reversed.status = "pending"
                 db.session.commit()
                 print("Friend request sent again.")
             else:

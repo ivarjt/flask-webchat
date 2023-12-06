@@ -6,6 +6,13 @@
     <title>Home</title>
 </head>
 <body>
+    {% if user %}
+        <h2 style="color:limegreen;">You are currently logged in as {{ user.username }}</h2>
+    {% else %}
+        <h2 style="color:red">You are not logged in</h2>
+    {% endif %}
+    <hr>
+
     <h1>Homepage - Debug</h1>
 
     <a href="{{url_for('register')}}">Press here to register</a>
@@ -15,8 +22,6 @@
     <a href="{{url_for('logout')}}">Press here to logout!</a>
     <br><br>
     <a href="{{url_for('chat')}}">Press here to enter chatroom!</a>
-    <br><br>
-    <a href="{{url_for('status')}}">Press here to see your status!</a>
     <br><br>
     <a href="{{url_for('new_home')}}">Press here to enter new_home!</a>
     <br><br>
