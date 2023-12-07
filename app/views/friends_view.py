@@ -15,27 +15,31 @@ def send_friend_request(): #TODO: This could possibly be cleaned up by returning
         print(f"Receiver ID: {receiver_id}")
         receiver = User.query.get(receiver_id)
         print(f"Receiver Object: {receiver}")
-
+        
         if receiver is not None:  # Ensure the receiver exists
-            if current_user.id == receiver_id:
+            if current_user.id == receiver_id:# Ensure the user is not sending a friend request to themselves
                 flash("You cannot send a friend request to yourself.", "error")
-            elif Friendship.query.filter(
+
+            elif Friendship.query.filter( # Ensure the user has not already sent a friend request to the receiver
                 (Friendship.sender_id == current_user.id) &
                 (Friendship.receiver_id == receiver_id) &
                 (Friendship.status == 'pending')
             ).first():
                 flash("You have already sent a friend request to this person.", "error")
-            elif Friendship.query.filter(
+
+            elif Friendship.query.filter( # Ensure the user has not already received a friend request from the receiver
                 ((Friendship.sender_id == receiver_id) & (Friendship.receiver_id == current_user.id)) |
                 ((Friendship.sender_id == current_user.id) & (Friendship.receiver_id == receiver_id))
             ).filter(Friendship.status == 'accepted').first():
                 flash("You are already friends with this person.", "error")
-            else:
+
+            else: # Send the friend request
                 friendship_instance = Friendship()
                 friendship_instance.send_friend_request(sender_id=current_user.id, receiver=receiver)
                 flash("Friend request sent.", "success")
                 return redirect(url_for("success"))
-        else:
+            
+        else: # The receiver does not exist
             flash("This username does not exist. Please try again.", "error")
 
     return render_template("friends/send_friend_request.html", form=form)
