@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,10 +8,12 @@
 </head>
 <body>
     {% if user %}
-        <h2 style="color:limegreen;">You are currently logged in as {{ user.username }}</h2>
+        <h2 style="color:limegreen;">You are currently logged in as {{ user.username }} </h2>
+        <img src="{{ user.image_link }}" alt="{{ user.username }}'s Image" style="width: 50px; height: 50px; border-radius: 50%;">
     {% else %}
         <h2 style="color:red">You are not logged in</h2>
     {% endif %}
+
     <hr>
 
     <h1>Homepage - Debug</h1>
@@ -34,6 +37,14 @@
     <br><br>
     <a href="{{url_for('list_friends')}}">list_friends</a>
     <hr>
+    
+    {% if user %}
+        <form action="{{ url_for('update_image_link') }}" method="post">
+            <label for="image_link">Profile Picture Link:</label>
+            <input type="text" name="image_link" id="image_link" placeholder="Enter image link">
+            <input type="submit" value="Update Profile Picture">
+        </form>
+    {% endif %}
 
 </body>
 </html>
