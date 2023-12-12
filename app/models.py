@@ -10,6 +10,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(100), unique=True, nullable=False)
     date_joined = db.Column(db.Date, default=datetime.utcnow)
     is_superuser = db.Column(db.Boolean, default=False)
+    image_link = db.Column(db.String(255), nullable=False, default="https://static-cdn.jtvnw.net/jtv_user_pictures/3981e6d5-9520-4692-bb33-67c3dd1a1123-profile_image-300x300.png")
 
     # Constructor method to initialize User objects
     def __init__(self, username, email, password, is_superuser):
@@ -25,8 +26,8 @@ class User(db.Model, UserMixin):
     # Function to get incoming friend requests for a user
     def get_incoming_friend_requests(self):
         return Friendship.query.filter_by(receiver_id=self.id, status='pending').all()
-    
-    
+
+ 
 class Friendship(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     sender_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
@@ -194,6 +195,3 @@ class Friendship(db.Model):
             return "Friend removed."
         else:
             return "Friend not found."
-
-        
-        
