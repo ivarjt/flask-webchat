@@ -1,7 +1,7 @@
 :root{
     --main-bg-color: #404040;
     --border-color: #6E6E6E;
-    --footer-color: #b71919;
+    --footer-color: #6E6E6E;
 }
 
 *{
@@ -10,15 +10,14 @@
 }
 
 body{
-    
-    min-height: 95vh;
-    background: var(--main-bg-color);
+    min-height: 100vh;
     font-family: 'Cascadia Code' ,sans-serif;
     text-align: center;
     color: white;
     font-size: 24px;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 /* Header content */
@@ -54,9 +53,14 @@ header {
   
   /* Add an active class to highlight the current page */
   .topnav a.active {
-    background-color: #04AA6D;
-    color: white;
-  }
+    background-image: url(moose_icon_green.png); 
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    color: transparent; 
+    padding: 14px 40px; 
+    box-sizing: border-box; 
+}
   
   /* Hide the link that should open and close the topnav on small screens */
   .topnav .icon {
@@ -65,7 +69,7 @@ header {
 
   .topnav a.split-right {
     float: right;
-    background-color: #04AA6D;
+    background-color: #1e5c60;
     color: white;
   }
 
@@ -81,20 +85,25 @@ header {
     flex: 1;
 }
 
-main{
-    background: var(--main-bg-color);
-    padding: 3em 0 3em 0;
-    flex: 5 5 150px;
-    
+main {
+  background-color: #f8f8f8;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 30%;
+  flex: 5 5 150px;
+  background-image: url('forest_background_green.png'); /* Set the default background image here */
 }
 
-/* Footer content */
 
-footer{
-    background: var(--footer-color);
-    position: sticky;
-    top: 100%;
+
+
+footer {
+  background: var(--footer-color);
+  position: sticky;
+  top: 100%;
+  height: 0.3vh; 
 }
+
 
 /* Repsonsive for main */
 @media all and (max-width: 550px){
@@ -109,7 +118,7 @@ footer{
 /* Repsonsive for header */
 
 /* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 697px) {
     .topnav a:not(:first-child) {display: none;}
     .topnav a.icon {
       float: right;
@@ -131,3 +140,60 @@ footer{
       text-align: left;
     }
   }
+  /* Repsonsive for main */
+ /* Responsive styles for small screens */
+@media screen and (max-width: 585px) {
+  main {
+    background-position: 35% 50%;
+    background-size: cover;
+  }
+}
+
+/* Responsive styles for medium screens */
+@media screen and (min-width: 708px) and (max-width: 992px) {
+  main {
+    background-position: 20% 30%;
+    background-size: cover;
+  }
+}
+
+/* Responsive styles for screens below 682 pixels */
+@media screen and (max-width: 682px) {
+  main {
+    background-size: cover;
+    background-position: 20% 50%;
+  }
+}
+
+/* Responsive styles for large screens */
+@media screen and (min-width: 993px) {
+  main {
+    background-position: 25% 20%;
+    background-size: cover;
+  }
+}
+
+
+  /* Repsonsive for footer */
+
+
+/* Your existing CSS styles here */
+
+/* Additional background images for the logo click */
+main.logo-clicked {
+  background-image: url('forest_background_blue.png') !important; /* Ensure the path is correct */
+}
+
+main.logo-clicked-2 {
+  background-image: url('forest_background_orange.png') !important; /* Path to the third image */
+}
+
+.topnav #logo.logo-clicked {
+  background-image: url('moose_icon_blue.png') !important;
+}
+
+.topnav #logo.logo-clicked-2 {
+  background-image: url('moose_icon_orange.png') !important;
+}
+
+

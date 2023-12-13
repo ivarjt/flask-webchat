@@ -10,12 +10,12 @@
 <body>
     <header>
         <div class="topnav" id="myTopnav">
-            <a href="#" class="active">Logo</a>
-            <a href="#"class="nav-center">About</a>
-            <a href="#"class="nav-center">Safety</a>
-            <a href="#" class="nav-center">Contact</a>
-            <a href="#" class="split-right" >Login</a>
-            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+          <a href="#" class="active" id="logo">Logo</a>
+          <a href="#"class="nav-center">About</a>
+          <a href="#"class="nav-center">Safety</a>
+          <a href="#" class="nav-center">Contact</a>
+          <a href="#" class="split-right" >Login</a>
+          <a href="javascript:void(0);" class="icon" onclick="myFunction()">
               <i class="fa fa-bars"></i>
             </a>
           </div>
@@ -24,13 +24,34 @@
     <div class="main">
         <main>
             MAIN CONTENT
+            <!--<p>
+              Height of the div:
+              <span class="output"></span>
+          </p>
+            <button onclick="getHeight()">
+              Get Height
+          </button>
+           
+          <script type="text/javascript">
+              function getHeight() {
+           
+                  divElement = document.querySelector("main");
+           
+                  elemHeight = divElement.offsetWidth;
+           
+                  document.querySelector(".output").textContent
+                      = elemHeight + "px";
+              }
+          </script>-->
         </main>
     </div>
     
     <footer>
-        FOOTER
+        
     </footer>
 </body>
+
+
 
 <script>
     /* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
@@ -43,5 +64,33 @@ function myFunction() {
   }
 }
 </script>
+
+ <script>
+document.addEventListener('DOMContentLoaded', function() {
+  var logo = document.getElementById('logo');
+  var body = document.querySelector('main');
+
+  logo.addEventListener('click', function(event) {
+    event.preventDefault(); // Prevents the default link behavior
+    
+    // Toggle the classes on both body and header
+    if (body.classList.contains('logo-clicked')) {
+      body.classList.remove('logo-clicked');
+      body.classList.add('logo-clicked-2');
+      logo.classList.remove('logo-clicked');
+      logo.classList.add('logo-clicked-2');
+    } else if (body.classList.contains('logo-clicked-2')) {
+      body.classList.remove('logo-clicked-2');
+      logo.classList.remove('logo-clicked-2');
+      // Add logic for additional backgrounds or toggle back to default
+    } else {
+      body.classList.add('logo-clicked');
+      logo.classList.add('logo-clicked');
+    }
+  });
+});
+
+
+ </script>
 
 </html>
