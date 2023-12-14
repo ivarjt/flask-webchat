@@ -3,7 +3,7 @@ from flask import render_template, redirect, url_for
 from ..forms import LoginForm, RegisterForm
 from ..models import User
 from flask_login import login_user, logout_user, login_required
-
+import random
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -18,17 +18,26 @@ def login():
     
     return render_template("authentication/login.html", form=form)
 
+def get_profile_picture():
+    # List of profile pictures
+    pfp_list = ["https://raw.githubusercontent.com/ivarjt/flask-webchat-media/main/default-pfp/moose_profile_blue.png",
+                "https://raw.githubusercontent.com/ivarjt/flask-webchat-media/main/default-pfp/moose_profile_green.png",
+                "https://raw.githubusercontent.com/ivarjt/flask-webchat-media/main/default-pfp/moose_profile_red.png",
+                "https://raw.githubusercontent.com/ivarjt/flask-webchat-media/main/default-pfp/moose_profile_yellow.png"]
+    return random.choice(pfp_list) # Return a random profile picture
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     form = RegisterForm()
     
     if form.validate_on_submit():
 
-        hashed_password = bcrypt.generate_password_hash(form.password.data)
+        hashed_password = bcrypt.generate_password_hash(form.password.data) # Hash the password
         new_user = User(username=form.username.data,
                         password=hashed_password,
                         email=form.email.data,
-                        is_superuser=0)
+                        is_superuser=0,
+                        image_link=get_profile_picture())
         
         db.session.add(new_user)
         db.session.commit()
@@ -41,4 +50,4 @@ def register():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for("login"))
+    return redirect(url_for("home"))

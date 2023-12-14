@@ -10,14 +10,15 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(100), unique=True, nullable=False)
     date_joined = db.Column(db.Date, default=datetime.utcnow)
     is_superuser = db.Column(db.Boolean, default=False)
-    image_link = db.Column(db.String(255), nullable=False, default="https://static-cdn.jtvnw.net/jtv_user_pictures/3981e6d5-9520-4692-bb33-67c3dd1a1123-profile_image-300x300.png")
+    image_link = db.Column(db.String(255), nullable=False)
 
     # Constructor method to initialize User objects
-    def __init__(self, username, email, password, is_superuser):
+    def __init__(self, username, email, password, is_superuser, image_link):
         self.username = username
         self.password = password
         self.email = email
         self.is_superuser = is_superuser
+        self.image_link = image_link
     
     # Dunder method that returns a string representation of all users
     def __repr__(self):
