@@ -3,7 +3,7 @@ from flask import render_template, redirect, url_for
 from ..forms import LoginForm, RegisterForm
 from ..models import User
 from flask_login import login_user, logout_user, login_required
-import random
+from ..utils.helpers import get_profile_picture
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -17,14 +17,6 @@ def login():
                 return redirect(url_for("home"))
     
     return render_template("authentication/login.html", form=form)
-
-def get_profile_picture():
-    # List of profile pictures
-    pfp_list = ["https://raw.githubusercontent.com/ivarjt/flask-webchat-media/main/default-pfp/moose_profile_blue.png",
-                "https://raw.githubusercontent.com/ivarjt/flask-webchat-media/main/default-pfp/moose_profile_green.png",
-                "https://raw.githubusercontent.com/ivarjt/flask-webchat-media/main/default-pfp/moose_profile_red.png",
-                "https://raw.githubusercontent.com/ivarjt/flask-webchat-media/main/default-pfp/moose_profile_yellow.png"]
-    return random.choice(pfp_list) # Return a random profile picture
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
