@@ -35,6 +35,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](https://gi
 ## Additional Resources
 
 ### Image Repository
-The images used in this project can be found at the [Image Repository](https://github.com/ivarjt/flask-webchat-media). This repository contains all the images necessary for the proper functioning of the web chat application.
+The images used in this project can be found at the [Image Repository](https://github.com/ivarjt/flask-webchat-media). This repository contains all the images necessary for the proper functioning of the web chat application, note that this repository does not need to be downloaded separately.
 
 #### 
