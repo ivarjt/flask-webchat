@@ -1,3 +1,4 @@
+
 # flask-webchat
 This project involves creating a user-friendly web chat application with real-time messaging, emoji support, and file sharing. Emphasizing user privacy and security through encryption and authentication
 
@@ -30,5 +31,10 @@ We do not accept direct contributions, but feel free to fork the project and wor
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/ivarjt/flask-webchat/blob/main/LICENSE) file for details
+
+## Additional Resources
+
+### Image Repository
+The images used in this project can be found at the [Image Repository](https://github.com/ivarjt/flask-webchat-media). This repository contains all the images necessary for the proper functioning of the web chat application.
 
 #### 
