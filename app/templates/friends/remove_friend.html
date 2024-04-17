@@ -10,13 +10,21 @@
     <!-- Display the list of friends here -->
     <ul>
         {% for friend in friends %}
-            <li>{{ friend }}
-
-            <form method="post" action="/remove_friend/{{ friend }}">
-                <button type="submit">Remove</button>
+            <li>{{ friend }}</li>
+            <li>
+                <form method="post" action="/remove_friend/{{ friend }}">
+                    <button type="submit">Remove</button>
+                </form>
             </li>
+            <li>
+                <form method="post" action="/create_room/{{ friend }}">
+                    <button type="submit">DM</button>
+                </form>
+            </li>
+            <hr>
         {% endfor %}
     </ul>
+    
     </div>
 
 
