@@ -91,7 +91,7 @@ def list_friends():
     friends = Friendship.get_friends(current_user.id)
 
     # Render the template with the list of friends
-    return render_template("friends/remove_friend.html", friends=friends)
+    return render_template("friends/remove_friend.html", friends=friends) #FIXME: This should be list_friends.html
 
 
 @app.route("/remove_friend/<string:friend>", methods=["POST"])

@@ -3,6 +3,44 @@ from datetime import datetime
 from flask_login import UserMixin
 from sqlalchemy.orm import relationship
 
+class Room(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    room_creator = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    participant = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    date_created = db.Column(db.Date, default=datetime.utcnow)
+    
+    @staticmethod
+    def convert_username_to_user_id(username):
+        """
+            Convert a username to a user ID.
+
+            Args:
+                username (str): The username to convert.
+
+            Returns:
+                int: The user ID corresponding to the username.
+            """
+        user = User.query.filter_by(username=username).first()
+        return user.id
+    
+    #FIXME: Innan man skapar ett rum kontrolelra om det finns
+    def create_room(room_creator, participant):
+        new_room = Room(room_creator=room_creator, participant=participant)
+        db.session.add(new_room)
+        db.session.commit()
+        
+    def check_if_room_exists(room_creator, participant):
+        room = Room.query.filter_by(room_creator=room_creator, participant=participant).first()
+        room_reversed = Room.query.filter_by(room_creator=participant, participant=room_creator).first()
+        
+        if room is None and room_reversed is None:
+            return True
+        else:
+            return False
+
+        
+        
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)

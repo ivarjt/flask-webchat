@@ -17,7 +17,8 @@ app = Flask(__name__)
 
 # SocketIO
 app.config['SECRET_KEY'] = 'secret_key'
-socketio = SocketIO(app)
+socketio = SocketIO(cors_allowed_origins="*")
+socketio.init_app(app)
 
 # SQLAlchemy
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite3"
