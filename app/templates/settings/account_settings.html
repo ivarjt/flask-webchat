@@ -1,0 +1,53 @@
+{% extends "settings/settings_base.html" %}
+
+{% block settings_content %}
+    <style>
+        .blur-email {
+            filter: blur(4px); /* Initial blur effect */
+            transition: filter 0.2s ease; /* Smooth transition for the blur effect */
+        }
+
+        .blur-email:hover {
+            filter: none; /* Remove the blur effect on hover */
+        }
+
+        hr {
+            width:10%;
+            text-align:left;
+            margin-left:0
+        }
+    </style>
+    
+    <h1>My Account</h1>
+    {% if current_user.is_superuser %}
+        <h3>You are logged in as a superuser.</h3>
+    {% endif %}
+
+
+    {% if user %}
+    <img src="{{ user.image_link }}" alt="{{ user.username }}'s Image" style="width: 100px; height: auto; border-radius: 50%;">
+    
+    <h2>Username</h2>
+    <h3>{{ user.username }}</h3>
+    <hr>
+    <h2>Email</h2>
+    <span class="blur-email"><h3>{{ user.email }}</h3></span>
+    <hr>    
+    <h2>Date Joined</h2>
+    <h3>{{ user.date_joined }}</h3>
+    <hr>
+    <br><br>
+        <form action="{{ url_for('update_image_link') }}" method="post">
+            <input type="text" name="image_link" id="image_link" placeholder="Enter image link">
+            <input type="submit" value="Update Profile Picture">
+        </form>
+    {% endif %}
+    <br>
+    <hr>
+    <br>
+    <form action="{{ url_for('home') }}" method="post"> <!-- TODO: Reset Password -->
+        <input type="submit" value="Reset Password">
+    </form>
+    
+
+{% endblock %}

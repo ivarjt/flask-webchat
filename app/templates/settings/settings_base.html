@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <style>
+
+        * {
+            font-family: 'Cascadia Code' ,sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            overflow: hidden; /* Prevent scrolling */
+        }
+        .container {
+            display: flex;
+            flex-direction: row;
+            height: 100vh;
+        }
+        .sidebar {
+            background-color: #36393f;
+            color: white;
+            width: 400px;
+            padding: 20px;
+            height: 100%;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 10px;
+            width: 100%; /* Ensure full width for flex items */
+            text-align: center; /* Center text horizontally within flex items */
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            height: 30px;
+            line-height: 30px; /* Set line-height to match the height of the list items */
+            display: block;
+            width: 100%;
+            transition: background-color 0.3s; /* Add transition effect for smooth color change */
+            border-radius: 100px; /* Add rounded edges */
+
+        }
+
+        .sidebar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.1); /* Change the background color on hover */
+        }
+
+        .settings-content {
+            padding: 20px;
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <ul>
+                <li><a href="{{url_for('account_settings')}}">My Account</a></li>
+                <li><a href="#">Setting 2</a></li>
+                <li><a href="#">Setting 3</a></li>
+                <li><a href="#">Setting 4</a></li>
+                <li><a href="#">Setting 5</a></li>
+                <li><a href="#">Setting 6</a></li>
+                <li><a href="#">Setting 7</a></li>
+                <li><a href="#">Setting 8</a></li>
+                <li><a href="#">Setting 9</a></li>
+                {% if current_user.is_superuser %}
+                    <li><a href="{{ url_for('admin_redirect') }}" style="color: yellow;">Admin Page</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="settings-content">
+            {% block settings_content %}
+            {% endblock %}
+        </div>
+    </div>
+</body>
+</html>
