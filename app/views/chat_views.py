@@ -21,10 +21,7 @@ def handle_message(data):
 @app.route("/chat1")
 def chat1():  
     return render_template("chat/chat1.html", username=current_user.username)
-#TODO: Make so only correct user can go on chat1 and chat2
-@app.route("/chat2")
-def chat2():  
-    return render_template("chat/chat2.html", username=current_user.username)
+
 
 @socketio.on('connect')
 def on_connect(auth):

@@ -46,7 +46,7 @@ def load_user(user_id):
 #---------------------
 
 # Models
-from .models import User, Friendship
+from .models import User, Friendship, Room
 
 # Views
-from .views import chat_views, admin_views, login_views, profile_views, error_views, friends_view, views
+from .views import chat_views, admin_views, login_views, profile_views, error_views, friends_view, settings_views, views

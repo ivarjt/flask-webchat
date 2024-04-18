@@ -1,8 +1,8 @@
-from app import admin, User, db, Friendship
+from app import admin, User, db, Friendship, Room
 from flask_admin.contrib.sqla import ModelView
 from app import app
 from flask_login import current_user
-from flask import request, abort
+from flask import request, abort, redirect
 
 def is_superuser():
     """
@@ -33,8 +33,9 @@ class CustomModelView(ModelView):
 
 admin.add_view(CustomModelView(User, db.session))
 admin.add_view(CustomModelView(Friendship, db.session))
+admin.add_view(CustomModelView(Room, db.session))
 
-#TODO: REMOVE THIS AT SOME POINT
-@app.route("/admin/test", methods=['GET', 'POST'])
-def admin_test():
-    return "test"
+
+@app.route("/admin/redirect", methods=['GET', 'POST'])
+def admin_redirect():
+    return redirect("/admin/")

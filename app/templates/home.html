@@ -26,6 +26,8 @@
     <br><br>
     <a href="{{url_for('new_home')}}">Press here to enter new_home!</a>
     <br><br>
+    <a href="{{url_for('account_settings')}}">Settings</a>
+    <br><br>
 
     <hr>
     <h1>Friend System</h1>
@@ -35,14 +37,6 @@
     <br><br>
     <a href="{{url_for('list_friends')}}">list_friends</a>
     <hr>
-    
-    {% if user %}
-        <form action="{{ url_for('update_image_link') }}" method="post">
-            <label for="image_link">Profile Picture Link:</label>
-            <input type="text" name="image_link" id="image_link" placeholder="Enter image link">
-            <input type="submit" value="Update Profile Picture">
-        </form>
-    {% endif %}
 
 </body>
 </html>
