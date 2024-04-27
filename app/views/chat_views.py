@@ -6,7 +6,7 @@ from ..models import Room, Friendship
 
 @app.route("/chat1/<int:room_id>")
 def chat1(room_id):  
-    return render_template("chat/chat1.html", username=current_user.username)
+    return render_template("chat/chat1.html", username=current_user.username, room_id=room_id)
 
 @app.route("/create_room/<string:user2_name>", methods=["POST"])
 def create_room(user2_name):
