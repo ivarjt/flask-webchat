@@ -1,26 +1,30 @@
-from app import app, socketio
-from flask import render_template, redirect, url_for
+from app import app, socketio, db
+from flask import render_template, redirect, url_for, request
 from flask_socketio import rooms, emit, join_room, leave_room
 from flask_login import current_user
-from ..models import Room
-        
-# Chat room
-"""
-@app.route("/chat")
-def chat():
-    if current_user.is_authenticated:
-        return render_template("chat/index.html", username=current_user.username)
-    return redirect(url_for("login"))
+from ..models import Room, Friendship
 
-@socketio.on('message')
-def handle_message(data):
-    sender = data['sender']
-    message = data['message']
-    send({'sender': sender, 'message': message}, broadcast=True) """
-
-@app.route("/chat1")
-def chat1():  
+@app.route("/chat1/<int:room_id>")
+def chat1(room_id):  
     return render_template("chat/chat1.html", username=current_user.username)
+
+@app.route("/create_room/<string:user2_name>", methods=["POST"])
+def create_room(user2_name):
+    user1_id = current_user.id
+    user2_id = Friendship.convert_username_to_user_id(user2_name)
+    
+    existing_room = Room.room_exists(user1_id, user2_id)
+    if existing_room:
+        # Room already exists
+            return redirect(url_for('chat1', room_id=existing_room.id))
+
+
+    
+    room = Room(user1_id=user1_id, user2_id=user2_id)
+    db.session.add(room)
+    db.session.commit()
+    
+    return redirect(url_for("chat1", room_id=room.id))
 
 
 @socketio.on('connect')
@@ -51,35 +55,16 @@ def on_leave(data):
     emit("leave", {"username": username}, to=room)
     
     
-@app.route("/create_room/<string:participant>", methods=["POST"])
-def create_room(participant):
-    # Convert the username to a user ID
-    room_creator_id = current_user.id
-    participant_id = Room.convert_username_to_user_id(participant)
-    print("BDHFSDKNFSD: "+str(participant_id))
-
-    
-    room_doesnt_exist = Room.check_if_room_exists(room_creator_id, participant_id)
-    
-    if room_doesnt_exist:
-        Room.create_room(room_creator_id, participant_id)
-    
-    return redirect(url_for("chat1"))
-
-
 """
-@app.route("/remove_friend/<string:friend>", methods=["POST"])
-def remove_friend(friend):
-    # Convert the username to a user ID
-    friend = Friendship.convert_username_to_user_id(friend)
+# TODO:OLD CHAT ROOM REMOVE THIS AT SOME POINT
+@app.route("/chat")
+def chat():
+    if current_user.is_authenticated:
+        return render_template("chat/index.html", username=current_user.username)
+    return redirect(url_for("login"))
 
-    # Call the remove_friend function
-    result = Friendship.remove_friend(current_user.id, friend)
-
-    # Flash a message to indicate the result
-    if result == "Friend removed.":
-        flash("Friend removed.", "success")
-    else:
-        flash("Friend not found.", "error")
-
-    return redirect(url_for('success'))"""
+@socketio.on('message')
+def handle_message(data):
+    sender = data['sender']
+    message = data['message']
+    send({'sender': sender, 'message': message}, broadcast=True) """
