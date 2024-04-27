@@ -1,8 +1,8 @@
 from app import app, socketio, db
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for
 from flask_socketio import rooms, emit, join_room, leave_room
 from flask_login import current_user
-from ..models import Room, Friendship
+from ..models import Room, Friendship, Message
 
 @app.route("/chat1/<int:room_id>")
 def chat1(room_id):  
@@ -34,11 +34,22 @@ def on_connect(auth):
 
 @socketio.on('message')
 def handle_message(data):
-    username= data.get('username')
+    username = data.get('username')
     message = data.get('message')
     room = data.get('room')
+
+    # Save the message to the database
     if room in rooms():
-        emit("message", {"username": username, "message": message}, to=room)
+        new_message = Message(
+            user_id=current_user.id,  # Assuming user1 is the sender
+            room_id=room,
+            message=message
+        )
+        db.session.add(new_message)
+        db.session.commit()
+
+    # Broadcast the message to all participants in the room
+    emit("message", {"username": username, "message": message}, to=room)
         
 @socketio.on('join')
 def on_join(data):
