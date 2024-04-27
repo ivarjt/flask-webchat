@@ -41,7 +41,7 @@ def handle_message(data):
     # Save the message to the database
     if room in rooms():
         new_message = Message(
-            user_id=current_user.id,  # Assuming user1 is the sender
+            user_id=current_user.id,
             room_id=room,
             message=message
         )
@@ -55,8 +55,17 @@ def handle_message(data):
 def on_join(data):
     username = data.get('username')
     room = data.get('room')
+    
+    # Join the room
     join_room(room)
-    emit("join", {"username": username}, to=room)
+    
+    # Load messages for the room from the database
+    messages = Message.query.filter_by(room_id=room).all()
+    
+    # Emit each message to the user who joined the room
+    for message in messages:
+        emit("message", {"username": message.user.username, "message": message.message}, to=room)
+
     
 @socketio.on('leave')
 def on_leave(data):
@@ -64,18 +73,3 @@ def on_leave(data):
     room = data.get('room')
     leave_room(room)
     emit("leave", {"username": username}, to=room)
-    
-    
-"""
-# TODO:OLD CHAT ROOM REMOVE THIS AT SOME POINT
-@app.route("/chat")
-def chat():
-    if current_user.is_authenticated:
-        return render_template("chat/index.html", username=current_user.username)
-    return redirect(url_for("login"))
-
-@socketio.on('message')
-def handle_message(data):
-    sender = data['sender']
-    message = data['message']
-    send({'sender': sender, 'message': message}, broadcast=True) """
