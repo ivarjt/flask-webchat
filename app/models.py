@@ -3,6 +3,18 @@ from datetime import datetime
 from flask_login import UserMixin
 from sqlalchemy.orm import relationship
 
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    room_id = db.Column(db.Integer, db.ForeignKey("room.id"), nullable=False)
+    message = db.Column(db.String(255), nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    # Define relationships
+    user = relationship("User")
+    room = relationship("Room")
+
+
 class Room(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user1_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
