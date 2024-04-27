@@ -67,7 +67,7 @@
         <div class="controls">
             <input id="message-input" placeholder="add message">
             <button id="send-button">Send message</button>
-            <button id="leave-button">Leave room</button>
+            <button id="leave-button" class="hidden">Leave room</button>
         </div>
     </div>
 
@@ -78,10 +78,11 @@
 </div>
 
 <script type="module">
-    import {io} from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
+    import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
 
     let room;
     const myUsername = "{{ username }}";
+    const room_id = "{{ room_id }}";
 
     const socket = io(
         "http://192.168.68.65:5000", { // FIXME: Automatically change this to the server's IP address
@@ -100,7 +101,7 @@
     });
 
     socket.on("message", function (value) {
-        let {username, message} = value;
+        let { username, message } = value;
         const css = username === myUsername ? "my-message" : "other-message";
         message = `${username}: ${message}`;
         document.getElementById("messages").innerHTML += `<li class=${css}>${message}</li>`;
@@ -109,21 +110,28 @@
     document.getElementById("send-button").addEventListener("click", function () {
         const message = document.getElementById("message-input").value;
         document.getElementById("message-input").value = "";
-        socket.emit("message", {"username": myUsername, "message": message, "room": room});
+        socket.emit("message", { "username": myUsername, "message": message, "room": room });
     });
 
     document.getElementById("join-button").addEventListener("click", function () {
         room = document.getElementById("room-input").value;
         document.getElementById("room-input").value = "";
-        socket.emit("join", {"username": myUsername, "room": room});
+        socket.emit("join", { "username": myUsername, "room": room });
         document.getElementById("room").classList.remove("hidden");
         document.getElementById("room-select").classList.add("hidden");
     });
 
     document.getElementById("leave-button").addEventListener("click", function () {
-        socket.emit("leave", {"username": myUsername, "room": room});
+        socket.emit("leave", { "username": myUsername, "room": room });
         document.getElementById("room").classList.add("hidden");
         document.getElementById("room-select").classList.remove("hidden");
+    });
+
+    // Set the room-input value to the room_id when the page loads
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("room-input").value = room_id;
+        // Optionally, you can join the room automatically here
+        document.getElementById("join-button").click();
     });
 </script>
 </body>
