@@ -10,7 +10,7 @@
     <!-- Display the list of friends here -->
     <ul>
         {% for friend in friends %}
-            <li>{{ friend }}</li>
+            <li>{{ friend }}</li> <h1>{{ friend.id }}</h1>
             <li>
                 <form method="post" action="/remove_friend/{{ friend }}">
                     <button type="submit">Remove</button>
