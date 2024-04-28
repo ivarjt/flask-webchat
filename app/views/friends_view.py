@@ -5,45 +5,6 @@ from ..models import Friendship, User
 from flask_login import current_user
 from wtforms.validators import ValidationError
 
-@app.route("/send_friend_request", methods=["GET", "POST"])
-def send_friend_request(): #TODO: This could possibly be cleaned up by returning from models.py
-    form = FriendRequestForm()
-
-    if form.validate_on_submit():
-        #TODO: REMOVE DEBUG PRINTS
-        receiver_id = Friendship.convert_username_to_user_id(form.username.data)
-        print(f"Receiver ID: {receiver_id}")
-        receiver = User.query.get(receiver_id)
-        print(f"Receiver Object: {receiver}")
-        
-        if receiver is not None:  # Ensure the receiver exists
-            if current_user.id == receiver_id:# Ensure the user is not sending a friend request to themselves
-                flash("You cannot send a friend request to yourself.", "error")
-
-            elif Friendship.query.filter( # Ensure the user has not already sent a friend request to the receiver
-                (Friendship.sender_id == current_user.id) &
-                (Friendship.receiver_id == receiver_id) &
-                (Friendship.status == 'pending')
-            ).first():
-                flash("You have already sent a friend request to this person.", "error")
-
-            elif Friendship.query.filter( # Ensure the user has not already received a friend request from the receiver
-                ((Friendship.sender_id == receiver_id) & (Friendship.receiver_id == current_user.id)) |
-                ((Friendship.sender_id == current_user.id) & (Friendship.receiver_id == receiver_id))
-            ).filter(Friendship.status == 'accepted').first():
-                flash("You are already friends with this person.", "error")
-
-            else: # Send the friend request
-                friendship_instance = Friendship()
-                friendship_instance.send_friend_request(sender_id=current_user.id, receiver=receiver)
-                flash("Friend request sent.", "success")
-                return redirect(url_for("success"))
-            
-        else: # The receiver does not exist
-            flash("This username does not exist. Please try again.", "error")
-
-    return render_template("friends/send_friend_request.html", form=form)
-
 
 @app.route('/accept_friend_request/<int:request_id>', methods=['POST'])
 def accept_friend_request(request_id):
@@ -57,7 +18,7 @@ def accept_friend_request(request_id):
         flash("Friend request not found.", "error")
 
     # Redirect the user to the appropriate page
-    return redirect(url_for('home'))
+    return redirect(url_for('friends_settings'))
 
 
 @app.route('/reject_friend_request/<int:request_id>', methods=['POST'])
@@ -72,7 +33,7 @@ def reject_friend_request(request_id):
         flash("Friend request not found.", "error")
 
     # Redirects the user
-    return redirect(url_for('home'))
+    return redirect(url_for('friends_settings'))
 
 
 @app.route("/handle_friend_request")
@@ -108,4 +69,18 @@ def remove_friend(friend):
     else:
         flash("Friend not found.", "error")
 
-    return redirect(url_for('success'))
+    return redirect(url_for('friends_settings'))
+
+@app.route("/cancel_friend_request/<string:request_id>", methods=["POST"])
+def cancel_friend_request(request_id):
+    
+    request_name = Friendship.convert_username_to_user_id(request_id)
+    
+    result = Friendship.cancel_friend_request(current_user.id, request_name)
+
+    if result == "Friend request cancelled.":
+        print("Friend request cancelled.", "success")
+    else:
+        print("Friend request not found.", "error")
+
+    return redirect(url_for('friends_settings'))

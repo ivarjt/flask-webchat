@@ -19,7 +19,7 @@ def home():
 def new_home():
     return render_template("new_home.html")
 
-#For debbuging purposes
+#DEBUG ROUTES
 @app.route("/layout")
 def layout():
-    return render_template("chat/layout.html")
+    return render_template("layout.html")
