@@ -151,6 +151,26 @@ class Friendship(db.Model):
         else:
             return "Friend request not found."
     
+    def cancel_friend_request(sender_id, receiver_id):
+        """
+        Cancel a friend request.
+
+        Args:
+            sender_id (int): The ID of the sender.
+            receiver_id (int): The ID of the receiver.
+
+        Returns:
+            str: A message indicating the result of the cancellation.
+        """
+        friend_request = Friendship.query.filter_by(sender_id=sender_id, receiver_id=receiver_id, status="pending").first()
+
+        if friend_request:
+            db.session.delete(friend_request)
+            db.session.commit()
+            return "Friend request cancelled."
+        else:
+            return "Friend request not found."
+    
     def get_friends(user_id):
         """
         Get the usernames of the friends of a user.
@@ -171,6 +191,44 @@ class Friendship(db.Model):
         friend_usernames = [friend.sender.username if friend.receiver_id == user_id else friend.receiver.username for friend in friends]
 
         return friend_usernames
+    
+    def get_friends_pfp(user_id):
+        """
+        Get the profile picture URLs of the friends of a user.
+
+        Args:
+            user_id (int): The ID of the user.
+
+        Returns:
+            list: A list of profile picture URLs of the user's friends.
+        """
+        friends = Friendship.query.filter(
+            (Friendship.sender_id == user_id) | (Friendship.receiver_id == user_id),
+            Friendship.status == "accepted"
+        ).all()
+
+        # Extract the profile picture URLs of the friends
+        friend_pfps = [friend.sender.profile_picture_url if friend.receiver_id == user_id else friend.receiver.profile_picture_url for friend in friends]
+
+        return friend_pfps
+
+    
+    def sent_friend_request(sender_id):
+        """
+        Get the usernames of the users to whom the sender has sent friend requests.
+
+        Args:
+            sender_id (int): The ID of the sender.
+
+        Returns:
+            list: A list of usernames of the users to whom the sender has sent friend requests.
+        """
+        requests = Friendship.query.filter_by(sender_id=sender_id, status="pending").all()
+
+        # Extract the usernames of the users to whom the sender has sent friend requests
+        request_usernames = [request.receiver.username for request in requests]
+
+        return request_usernames
     
     @staticmethod
     def convert_username_to_user_id(username):

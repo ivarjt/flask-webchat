@@ -1,0 +1,112 @@
+{% extends "settings/settings_base.html" %}
+
+{% block settings_content %}
+
+<style>
+    .section-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .section {
+        flex: 1 1 300px; /* Adjust as needed */
+        margin-bottom: 20px;
+    }
+
+    hr {
+        width: 50%;
+        margin: 10px 0;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+</style>
+
+<div class="section-container">
+
+    <div class="section">
+        <h1>Your Friends ({{ friends|length }})</h1>
+        <ul>
+            {% for friend in friends %}
+                <li>{{ friend }}</li> <h1>{{ friend.id }}</h1>
+                <li>
+                    <form method="post" action="/remove_friend/{{ friend }}">
+                        <button type="submit">Remove</button>
+                    </form>
+                </li>
+                <li>
+                    <form method="post" action="/create_room/{{ friend }}">
+                        <button type="submit">DM</button>
+                    </form>
+                </li>
+                <hr>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="section">
+        <h1>Sent friend requests{% if sent_requests %} ({{ sent_requests|length }}){% endif %}</h1>
+        {% if sent_requests %}
+            <ul>
+                {% for sent_request in sent_requests %}
+                    <li>{{ sent_request }}</li>
+                    <li>
+                        <form method="post" action="/cancel_friend_request/{{ sent_request }}">
+                            <button type="submit">Cancel Request</button>
+                        </form>
+                    </li>
+                    <hr>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No sent friend requests.</p>
+        {% endif %}
+    </div>
+
+    <div class="section">
+        <h1>Handle Friend Requests{% if incoming_requests %} ({{ incoming_requests|length }}){% endif %}</h1>
+        {% if incoming_requests %}
+            <ul>
+                {% for request in incoming_requests %}
+                    <div>
+                        From: {{ request.sender.username }}
+                        <form method="post" action="/accept_friend_request/{{ request.id }}">
+                            <button type="submit">Accept</button>
+                        </form>
+                        <form method="post" action="/reject_friend_request/{{ request.id }}">
+                            <button type="submit">Reject</button>
+                        </form>
+                    </div>
+                    <hr>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No incoming friend requests.</p>
+        {% endif %}
+    </div>
+
+</div>
+
+<div class="section">
+    <h1>Send Friend Request</h1>
+    <form method="post" action="">
+        {{ form.hidden_tag() }}
+        {{ form.username.label }} {{ form.username }}
+        {{ form.submit }}
+    </form>
+    
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flashes">
+                {% for message in messages %}
+                    <li class="error">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+</div>
+
+{% endblock %}
