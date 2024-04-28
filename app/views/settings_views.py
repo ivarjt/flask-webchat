@@ -2,6 +2,7 @@ from app import app
 from flask import render_template, request, redirect, url_for
 from ..models import db
 from flask_login import current_user
+from ..utils.helpers import get_profile_picture
 
 
 #TODO:REMOVE THIS
@@ -14,6 +15,9 @@ def account_settings():
 def update_image_link():
     if current_user.is_authenticated:
         image_link = request.form.get('image_link')
+        
+        if image_link == "":
+            image_link = get_profile_picture() 
 
         # You may want to add validation logic here to ensure the link is valid
 
