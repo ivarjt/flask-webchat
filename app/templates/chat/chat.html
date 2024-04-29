@@ -2,8 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Website</title>
     <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #f2f3f5;
+        }
+        header {
+            background-color: #36393f;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+        main {
+            flex-grow: 1;
+            display: flex;
+            border-bottom: 1px solid #ccc;
+        }
+        #friends {
+            flex: 1;
+            padding: 20px;
+            border-right: 1px solid #ccc;
+            position: relative;
+        }
+        #chat {
+            flex: 3;
+            padding: 20px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-y: auto; /* Add this line to enable vertical scrolling */
+            max-height: calc(100vh - 110px); /* Adjust height based on your header and footer height */
+            overscroll-behavior-y: contain; /* Prevent scrolling from affecting the whole page */
+        }
         .container {
             padding-right: 15px;
             padding-left: 15px;
@@ -11,128 +49,171 @@
             margin-left: auto;
             width: 750px;
         }
-
-        li {
-            list-style: none;
-            margin: 0 auto 20px auto;
-            padding: 15px;
-            width: 200px;
-            border-radius: 10px;
-            text-align: center;
+        #messages {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column-reverse;
+            align-self: flex-start;
         }
-
+        #messages li {
+            margin-bottom: 8px;
+        }
+        .message {
+            padding: 8px 12px;
+            border-radius: 8px;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
         .other-message {
-            background: limegreen;
+            background: #7289da;
             color: #fff;
+            align-self: flex-start;
         }
-
         .my-message {
-            background: darkgrey;
+            background: #4caf50;
             color: #fff;
+            align-self: flex-start;
         }
-
         .info-message {
-            background: mediumaquamarine;
+            background: #43b581;
             color: #fff;
+            align-self: center;
         }
-
-        .controls {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-gap: 1rem;
-            margin-top: 60px;
+        .controls * {
+            align-self: flex-end;
         }
-
         .hidden {
             display: none;
         }
-
-        #join-button {
-            background: lime;
-            color: black;
+        .footer {
+            position: sticky;
+            bottom: 0;
+            width: 100%;
+            background-color: #a72424; /* Add background color for better visibility */
+            padding: 15px 20px;
+            box-sizing: border-box;
+            z-index: 2; /* Ensure footer is above the messages */
         }
 
-        #leave-button {
-            background: red;
-            color: white;
+
+        #message-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+            background-color: #fff;
+            outline: none;
+        }
+        #send-button {
+            background-color: #7289da;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #send-button:hover {
+            background-color: #677bc4;
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="hidden" id="room">
-        <div id="messages">
-            <ul></ul>
+    <header>
+        Chat Website
+    </header>
+    <main>
+        <div id="friends">
+            <h2>Friends</h2>
+            <ul>
+                <li>Friend 1</li>
+                <li>Friend 2</li>
+                <li>Friend 3</li>
+            </ul>
+            <button id="settings_button">Settings</button>
         </div>
-        <div class="controls">
-            <input id="message-input" placeholder="add message">
-            <button id="send-button">Send message</button>
-            <button id="leave-button" class="hidden">Leave room</button>
+        <div id="chat">
+            <h2>Chat</h2>
+            <div id="messages">
+            </div>
+            <div class="container hidden" id="room">
+                <div id="messages">
+                    <ul></ul>
+                </div>
+                <div class="chat-controls">
+                    <!-- No need for send button and textbox here -->
+                </div>
+            </div>
+            <div class="footer">
+                <input id="message-input" placeholder="add message">
+                <button id="send-button">Send message</button>
+                <button id="leave-button" class="hidden">Leave room</button>
+            </div>
+            <div class="controls" id="room-select">
+                <input id="room-input" placeholder="select room">
+                <button id="join-button">Join Room</button>
+            </div>
         </div>
-    </div>
+    </main>
 
-    <div class="controls" id="room-select">
-        <input id="room-input" placeholder="select room">
-        <button id="join-button">Join Room</button>
-    </div>
-</div>
-
-<script type="module">
-    import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
-
-    let room;
-    const myUsername = "{{ username }}";
-    const room_id = "{{ room_id }}";
-
-    const socket = io(
-        "http://192.168.68.65:5000", { // FIXME: Automatically change this to the server's IP address
-            auth: {
-                token: "123"
+    <script type="module">
+        import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
+    
+        let room;
+        const myUsername = "{{ username }}";
+        const room_id = "{{ room_id }}";
+    
+        const socket = io(
+            "http://192.168.152.89:5000", {
+                auth: {
+                    token: "123"
+                }
             }
-        }
-    );
+        );
+    
+        socket.on("join", function (value) {
+            document.getElementById("messages").innerHTML += `<li class="info-message">${value.username} joined the room</li>`;
+        });
+    
+        socket.on("leave", function (value) {
+            document.getElementById("messages").innerHTML += `<li class="info-message">${value.username} left the room</li>`;
+        });
+    
+        socket.on("message", function (value) {
+            let { username, message } = value;
+            const css = username === myUsername ? "my-message" : "other-message";
+            message = `${username}: ${message}`;
+            const messageElement = `<li class="message ${css}">${message}</li>`;
+            document.getElementById("messages").insertAdjacentHTML("afterbegin", messageElement);
+        });
 
-    socket.on("join", function (value) {
-        document.getElementById("messages").innerHTML += `<li class="info-message">${value.username} joined the room</li>`;
-    });
-
-    socket.on("leave", function (value) {
-        document.getElementById("messages").innerHTML += `<li class="info-message">${value.username} left the room</li>`;
-    });
-
-    socket.on("message", function (value) {
-        let { username, message } = value;
-        const css = username === myUsername ? "my-message" : "other-message";
-        message = `${username}: ${message}`;
-        document.getElementById("messages").innerHTML += `<li class=${css}>${message}</li>`;
-    });
-
-    document.getElementById("send-button").addEventListener("click", function () {
-        const message = document.getElementById("message-input").value;
-        document.getElementById("message-input").value = "";
-        socket.emit("message", { "username": myUsername, "message": message, "room": room });
-    });
-
-    document.getElementById("join-button").addEventListener("click", function () {
-        room = document.getElementById("room-input").value;
-        document.getElementById("room-input").value = "";
-        socket.emit("join", { "username": myUsername, "room": room });
-        document.getElementById("room").classList.remove("hidden");
-        document.getElementById("room-select").classList.add("hidden");
-    });
-
-    document.getElementById("leave-button").addEventListener("click", function () {
-        socket.emit("leave", { "username": myUsername, "room": room });
-        document.getElementById("room").classList.add("hidden");
-        document.getElementById("room-select").classList.remove("hidden");
-    });
-
-    // Set the room-input value to the room_id when the page loads
-    document.addEventListener("DOMContentLoaded", function () {
-        document.getElementById("room-input").value = room_id;
-        // Optionally, you can join the room automatically here
-        document.getElementById("join-button").click();
-    });
-</script>
+    
+        document.getElementById("send-button").addEventListener("click", function () {
+            const message = document.getElementById("message-input").value;
+            document.getElementById("message-input").value = "";
+            socket.emit("message", { "username": myUsername, "message": message, "room": room });
+        });
+    
+        document.getElementById("join-button").addEventListener("click", function () {
+            room = document.getElementById("room-input").value;
+            document.getElementById("room-input").value = "";
+            socket.emit("join", { "username": myUsername, "room": room });
+            document.getElementById("room").classList.remove("hidden");
+            document.getElementById("room-select").classList.add("hidden");
+        });
+    
+        document.getElementById("leave-button").addEventListener("click", function () {
+            socket.emit("leave", { "username": myUsername, "room": room });
+            document.getElementById("room").classList.add("hidden");
+            document.getElementById("room-select").classList.remove("hidden");
+        });
+    
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("room-input").value = room_id;
+            document.getElementById("join-button").click();
+        });
+    </script>
 </body>
 </html>
