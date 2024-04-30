@@ -5,8 +5,9 @@ from flask_login import current_user
 from ..models import Room, Friendship, Message
 
 @app.route("/chat/<int:room_id>")
-def chat(room_id):  
-    return render_template("chat/chat.html", username=current_user.username, room_id=room_id)
+def chat(room_id): 
+    friends = Friendship.get_friends(current_user.id) 
+    return render_template("chat/chat.html", username=current_user.username, room_id=room_id, friends=friends)
 
 @app.route("/create_room/<string:user2_name>", methods=["POST"])
 def create_room(user2_name):
