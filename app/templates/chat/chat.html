@@ -15,21 +15,52 @@
             background-color: #f2f3f5;
         }
         header {
-            background-color: #36393f;
+            background-color: #282a2f;
             color: #fff;
             padding: 10px;
             text-align: center;
+            border-bottom: #f2f3f5 solid 1px;
         }
         main {
             flex-grow: 1;
             display: flex;
-            border-bottom: 1px solid #ccc;
+            background-color: #4a4e55;
         }
         #friends {
             flex: 1;
             padding: 20px;
-            border-right: 1px solid #ccc;
+            border-right: 1px solid #f2f3f5;
             position: relative;
+            background-color: #36393f;
+            color: white;
+        }
+        #friends h2 {
+            margin-bottom: 10px;
+        }
+        #friends ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        #friends li {
+            margin-bottom: 10px;
+        }
+        #friends button {
+            background-color: #7289da;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #friends button:hover {
+            background-color: #677bc4;
+        }
+        #friends hr {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 10px 0;
         }
         #chat {
             flex: 3;
@@ -41,6 +72,7 @@
             overflow-y: auto; /* Add this line to enable vertical scrolling */
             max-height: calc(100vh - 110px); /* Adjust height based on your header and footer height */
             overscroll-behavior-y: contain; /* Prevent scrolling from affecting the whole page */
+            background-color: #4a4e55;
         }
         .container {
             padding-right: 15px;
@@ -69,11 +101,13 @@
             background: #7289da;
             color: #fff;
             align-self: flex-start;
+            list-style: none;
         }
         .my-message {
-            background: #4caf50;
+            background: #4a60b1;
             color: #fff;
             align-self: flex-start;
+            list-style: none;
         }
         .info-message {
             background: #43b581;
@@ -87,18 +121,18 @@
             display: none;
         }
         .footer {
-            position: sticky;
+            position: fixed;
             bottom: 0;
             width: 100%;
-            background-color: #a72424; /* Add background color for better visibility */
+            background-color: #4a4e55;
             padding: 15px 20px;
             box-sizing: border-box;
-            z-index: 2; /* Ensure footer is above the messages */
+            z-index: 2;
+            border-top: #f2f3f5 solid 1px;
         }
-
-
         #message-input {
-            flex: 1;
+            /* Remove flex property */
+            width: calc(55% - 90px); /* Adjust the width as needed */
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -106,6 +140,7 @@
             background-color: #fff;
             outline: none;
         }
+
         #send-button {
             background-color: #7289da;
             color: #fff;
@@ -126,16 +161,19 @@
     </header>
     <main>
         <div id="friends">
-            <h2>Friends</h2>
+            <h2>Friends ({{ friends|length }})</h2>
             <ul>
-                <li>Friend 1</li>
-                <li>Friend 2</li>
-                <li>Friend 3</li>
+                {% for friend in friends %}
+                <li>
+                    <form method="post" action="/create_room/{{ friend }}">
+                        <button type="submit">{{ friend }}</button>
+                    </form>
+                </li>
+                <hr>
+                {% endfor %}
             </ul>
-            <button id="settings_button">Settings</button>
         </div>
         <div id="chat">
-            <h2>Chat</h2>
             <div id="messages">
             </div>
             <div class="container hidden" id="room">
@@ -166,7 +204,7 @@
         const room_id = "{{ room_id }}";
     
         const socket = io(
-            "http://192.168.152.89:5000", {
+            "http://10.153.201.146:5000/", {
                 auth: {
                     token: "123"
                 }
