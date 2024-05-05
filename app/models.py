@@ -2,6 +2,7 @@ from app import db
 from datetime import datetime
 from flask_login import UserMixin
 from sqlalchemy.orm import relationship
+from sqlalchemy import or_
 
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -76,6 +77,28 @@ class Friendship(db.Model):
     # Define relationships between sender and receiver and User model
     sender = relationship("User", foreign_keys=[sender_id])
     receiver = relationship("User", foreign_keys=[receiver_id])
+
+    @staticmethod
+    def get_friends_with_image(user_id):
+        """
+        Get the usernames and profile picture URLs of the friends of a user.
+
+        Args:
+            user_id (int): The ID of the user.
+
+        Returns:
+            list: A list of dictionaries containing usernames and profile picture URLs of the user's friends.
+        """
+        friends = Friendship.query.join(User, or_(User.id == Friendship.sender_id, User.id == Friendship.receiver_id)) \
+            .filter(((Friendship.sender_id == user_id) & (User.id != user_id)) |
+                    ((Friendship.receiver_id == user_id) & (User.id != user_id))) \
+            .filter(Friendship.status == "accepted") \
+            .with_entities(User.username, User.image_link) \
+            .distinct() \
+            .all()
+
+        friend_data = [{"username": username, "image_link": image_link} for username, image_link in friends]
+        return friend_data
 
     def send_friend_request(self, sender_id, receiver): #FIXME: Check the weird empty returns
         """
