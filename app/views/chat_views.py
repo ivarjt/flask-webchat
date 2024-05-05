@@ -2,12 +2,12 @@ from app import app, socketio, db
 from flask import render_template, redirect, url_for, request
 from flask_socketio import rooms, emit, join_room, leave_room
 from flask_login import current_user
-from ..models import Room, Friendship, Message
+from ..models import Room, Friendship, Message, User
 
 @app.route("/chat/<int:room_id>")
 def chat(room_id): 
-    friends = Friendship.get_friends(current_user.id) 
-    return render_template("chat/chat.html", username=current_user.username, room_id=room_id, friends=friends)
+    friend_data = Friendship.get_friends_with_image(current_user.id)
+    return render_template("chat/chat.html", username=current_user.username, room_id=room_id, friends=friend_data)
 
 @app.route("/create_room/<string:user2_name>", methods=["POST"])
 def create_room(user2_name):

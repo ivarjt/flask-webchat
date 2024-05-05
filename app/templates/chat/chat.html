@@ -153,6 +153,13 @@
         #send-button:hover {
             background-color: #677bc4;
         }
+        .profile-image {
+            width: 40px; /* Adjust the width as needed */
+            height: 40px; /* Adjust the height as needed */
+            border-radius: 50%; /* Make the image circular */
+            object-fit: cover; /* Ensure the image covers the circular container */
+            margin-right: 10px; /* Adjust spacing between image and button */
+        }
     </style>
 </head>
 <body>
@@ -164,9 +171,10 @@
             <h2>Friends ({{ friends|length }})</h2>
             <ul>
                 {% for friend in friends %}
-                <li>
-                    <form method="post" action="/create_room/{{ friend }}">
-                        <button type="submit">{{ friend }}</button>
+                <li class="friend-item"> <!-- Apply friend-item class to the list item -->
+                    <form method="post" action="/create_room/{{ friend.username }}">
+                        <img class="profile-image" src="{{ friend.image_link }}" alt="Profile Image"> <!-- Display profile image -->
+                        <button type="submit">{{ friend.username }}</button> <!-- Display username -->
                     </form>
                 </li>
                 <hr>
@@ -204,7 +212,7 @@
         const room_id = "{{ room_id }}";
     
         const socket = io(
-            "http://10.153.201.146:5000/", {
+            "http://192.168.68.65:5000/", {
                 auth: {
                     token: "123"
                 }
