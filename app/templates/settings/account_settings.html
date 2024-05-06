@@ -2,6 +2,36 @@
 
 {% block settings_content %}
     <style>
+        /* Styling for account settings */
+        .account-container {
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .account-heading {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .account-details {
+            margin-bottom: 20px;
+        }
+
+        .account-details h2 {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .account-details h3 {
+            font-size: 16px;
+            color: #777;
+        }
+
+        /* Animation for blur effect on email */
         .blur-email {
             filter: blur(4px); /* Initial blur effect */
             transition: filter 0.2s ease; /* Smooth transition for the blur effect */
@@ -11,43 +41,84 @@
             filter: none; /* Remove the blur effect on hover */
         }
 
+        /* Custom styling for hr */
         hr {
-            width:10%;
-            text-align:left;
-            margin-left:0
+            width: 10%;
+            text-align: left;
+            margin-left: 0;
+            border: none;
+            height: 1px;
+            background-color: #ddd;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Styling for buttons */
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: #fff;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        /* Animation for spinning profile picture */
+        .profile-picture {
+            transition: transform 0.5s ease;
+        }
+
+        .profile-picture:hover {
+            transform: rotate(360deg);
         }
     </style>
     
-    <h1>My Account</h1>
-    {% if current_user.is_superuser %}
-        <h3>You are logged in as a superuser.</h3>
-    {% endif %}
+    <div class="account-container">
+        <h1 class="account-heading">My Account</h1>
+        {% if current_user.is_superuser %}
+            <h3>You are logged in as a superuser.</h3>
+        {% endif %}
 
+        {% if user %}
+            <div class="account-details">
+                <img src="{{ user.image_link }}" alt="{{ user.username }}'s Image" style="width: 100px; height: auto; border-radius: 50%; margin-bottom: 20px;" class="profile-picture">
+                
+                <h2>Username</h2>
+                <h3>{{ user.username }}</h3>
+                <hr>
+                <h2>Email</h2>
+                <span class="blur-email"><h3>{{ user.email }}</h3></span>
+                <hr>    
+                <h2>Date Joined</h2>
+                <h3>{{ user.date_joined }}</h3>
+                <hr>
+            </div>
 
-    {% if user %}
-    <img src="{{ user.image_link }}" alt="{{ user.username }}'s Image" style="width: 100px; height: auto; border-radius: 50%;">
-    
-    <h2>Username</h2>
-    <h3>{{ user.username }}</h3>
-    <hr>
-    <h2>Email</h2>
-    <span class="blur-email"><h3>{{ user.email }}</h3></span>
-    <hr>    
-    <h2>Date Joined</h2>
-    <h3>{{ user.date_joined }}</h3>
-    <hr>
-    <br><br>
-        <form action="{{ url_for('update_image_link') }}" method="post">
-            <input type="text" name="image_link" id="image_link" placeholder="Enter image link">
-            <input type="submit" value="Update Profile Picture">
+            <form action="{{ url_for('update_image_link') }}" method="post">
+                <input type="text" name="image_link" id="image_link" placeholder="Enter image link" style="margin-bottom: 20px;">
+                <input type="submit" value="Update Profile Picture" class="btn btn-primary">
+            </form>
+        {% endif %}
+        
+        <form action="{{ url_for('home') }}" method="post"> <!-- TODO: Reset Password -->
+            <input type="submit" value="Reset Password" class="btn btn-secondary">
         </form>
-    {% endif %}
-    <br>
-    <hr>
-    <br>
-    <form action="{{ url_for('home') }}" method="post"> <!-- TODO: Reset Password -->
-        <input type="submit" value="Reset Password">
-    </form>
-    
-
+    </div>
 {% endblock %}
