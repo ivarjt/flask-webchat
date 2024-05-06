@@ -3,32 +3,38 @@
 {% block settings_content %}
 
 <style>
-    .section-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
+    /* Styling for main content */
+    .main-content {
+        border-radius: 10px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     }
 
+    /* Styling for sections */
     .section {
-        flex: 1 1 300px; /* Adjust as needed */
         margin-bottom: 20px;
     }
 
+    /* Styling for horizontal lines */
     hr {
         width: 50%;
         margin: 10px 0;
     }
 
+    /* Styling for unordered lists */
     ul {
         list-style-type: none;
         padding: 0;
     }
 
+    /* Styling for button containers */
     .button-container {
         display: flex;
         align-items: center;
     }
 
+    /* Styling for buttons */
     .styled-button {
         background-color: #7289da;
         color: #fff;
@@ -50,69 +56,82 @@
     .cancel-request-button {
         background-color: rgb(217, 86, 86);
     }
+
+    /* Styling for horizontal sections */
+    .horizontal-sections {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    /* Styling for each section in horizontal layout */
+    .horizontal-section {
+        flex-basis: calc(33.33% - 10px); /* Adjust as needed */
+    }
 </style>
 
-<div class="section-container">
-
-    <div class="section">
-        <h1>Your Friends ({{ friends|length }})</h1>
-        <ul>
-            {% for friend in friends %}
-                <li>{{ friend }}</li> <h1>{{ friend.id }}</h1>
-                <li class="button-container">
-                    <form method="post" action="/remove_friend/{{ friend }}">
-                        <button type="submit" class="styled-button remove-button">Remove</button>
-                    </form>
-                    <form method="post" action="/create_room/{{ friend }}">
-                        <button type="submit" class="styled-button">DM</button>
-                    </form>
-                </li>
-                <hr>
-            {% endfor %}
-        </ul>
-    </div>
-
-    <div class="section">
-        <h1>Sent friend requests{% if sent_requests %} ({{ sent_requests|length }}){% endif %}</h1>
-        {% if sent_requests %}
+<div class="main-content">
+    <div class="horizontal-sections">
+        <div class="section horizontal-section">
+            <h1>Your Friends ({{ friends|length }})</h1>
             <ul>
-                {% for sent_request in sent_requests %}
-                    <li>{{ sent_request }}</li>
+                {% for friend in friends %}
+                    <li>{{ friend }}</li> <h1>{{ friend.id }}</h1>
                     <li class="button-container">
-                        <form method="post" action="/cancel_friend_request/{{ sent_request }}">
-                            <button type="submit" class="styled-button cancel-request-button">Cancel Request</button>
+                        <form method="post" action="/remove_friend/{{ friend }}">
+                            <button type="submit" class="styled-button remove-button">Remove</button>
+                        </form>
+                        <form method="post" action="/create_room/{{ friend }}">
+                            <button type="submit" class="styled-button">DM</button>
                         </form>
                     </li>
                     <hr>
                 {% endfor %}
             </ul>
-        {% else %}
-            <p>No sent friend requests.</p>
-        {% endif %}
-    </div>
+        </div>
 
-    <div class="section">
-        <h1>Handle Friend Requests{% if incoming_requests %} ({{ incoming_requests|length }}){% endif %}</h1>
-        {% if incoming_requests %}
-            <ul>
-                {% for request in incoming_requests %}
-                    <div>
-                        From: {{ request.sender.username }}
+        <div class="section horizontal-section">
+            <h1>Sent friend requests{% if sent_requests %} ({{ sent_requests|length }}){% endif %}</h1>
+            {% if sent_requests %}
+                <ul>
+                    {% for sent_request in sent_requests %}
+                        <li>{{ sent_request }}</li>
                         <li class="button-container">
-                            <form method="post" action="/accept_friend_request/{{ request.id }}">
-                                <button type="submit" class="styled-button">Accept</button>
-                            </form>
-                            <form method="post" action="/reject_friend_request/{{ request.id }}">
-                                <button type="submit" class="styled-button reject-button">Reject</button>
+                            <form method="post" action="/cancel_friend_request/{{ sent_request }}">
+                                <button type="submit" class="styled-button cancel-request-button">Cancel Request</button>
                             </form>
                         </li>
-                    </div>
-                    <hr>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No incoming friend requests.</p>
-        {% endif %}
+                        <hr>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No sent friend requests.</p>
+            {% endif %}
+        </div>
+
+        <div class="section horizontal-section">
+            <h1>Handle Friend Requests{% if incoming_requests %} ({{ incoming_requests|length }}){% endif %}</h1>
+            {% if incoming_requests %}
+                <ul>
+                    {% for request in incoming_requests %}
+                        <div>
+                            From: {{ request.sender.username }}
+                            <li class="button-container">
+                                <form method="post" action="/accept_friend_request/{{ request.id }}">
+                                    <button type="submit" class="styled-button">Accept</button>
+                                </form>
+                                <form method="post" action="/reject_friend_request/{{ request.id }}">
+                                    <button type="submit" class="styled-button reject-button">Reject</button>
+                                </form>
+                            </li>
+                        </div>
+                        <hr>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No incoming friend requests.</p>
+            {% endif %}
+        </div>
     </div>
 
 </div>
