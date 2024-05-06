@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -5,7 +6,73 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='MooseFavicon.png') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='new_home.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Home</title>
+    <title>Crowned</title>
+
+    <style>
+        /* Reset margin for header */
+        header {
+            margin-bottom: 0;
+        }
+
+        .card {
+            margin: 0 auto 20px; /* Center the card */
+            margin-top: 50px;
+            width: 90%; /* Make the card wider */
+            max-width: 600px; /* Set maximum width */
+            border-radius: 12px; /* Round the corners */
+            box-shadow: -1px 4px 28px 0px rgba(0, 0, 0, 0.75);
+            background: rgba(106, 106, 106, 0.7);
+        }
+
+        .card .content {
+            padding: 30px; /* Increase padding */
+        }
+
+        .card header {
+            font-size: 28px; /* Larger font size */
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center; /* Center align header */
+        }
+
+        .card p {
+            font-size: 16px; /* Larger font size for text */
+            line-height: 1.6; /* Increase line height */
+            margin-bottom: 30px; /* Increase margin */
+        }
+
+        .card .buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card .button {
+            display: inline-block;
+            background-color: #3498db;
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 24px; /* Increase padding */
+            border-radius: 6px; /* Round the corners */
+            transition: background-color 0.3s;
+            font-size: 18px; /* Larger font size */
+            margin-bottom: 15px; /* Add margin between buttons */
+        }
+
+        .card .button:hover {
+            background-color: #2684d9;
+        }
+
+        .card .login-link {
+            color: white;
+            text-decoration: none;
+            font-size: 16px; /* Larger font size */
+        }
+
+        .card .login-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -14,83 +81,69 @@
           <a href="#"class="nav-center">About</a>
           <a href="#"class="nav-center">Safety</a>
           <a href="#" class="nav-center">Contact</a>
-          <a href="#" class="split-right" >Login</a>
+          <a href="#" class="split-right">Login</a>
           <a href="javascript:void(0);" class="icon" onclick="myFunction()">
               <i class="fa fa-bars"></i>
             </a>
           </div>
     </header>
-
+    
     <div class="main">
+      <br><br><br>
         <main>
-            MAIN CONTENT
-            <!--<p>
-              Height of the div:
-              <span class="output"></span>
-          </p>
-            <button onclick="getHeight()">
-              Get Height
-          </button>
-           
-          <script type="text/javascript">
-              function getHeight() {
-           
-                  divElement = document.querySelector("main");
-           
-                  elemHeight = divElement.offsetWidth;
-           
-                  document.querySelector(".output").textContent
-                      = elemHeight + "px";
-              }
-          </script>-->
+            <!-- Existing main content -->
+            
+            <!-- New card -->
+            <div class="card">
+                <div class="content">
+                    <header>Crowned</header>
+                    <p>Join our community and start chatting with others. Connect with people who share your interests.</p>
+                    <div class="buttons">
+                        <a href="{{ url_for('register') }}" class="button">Register Now</a>
+                        <a href="{{ url_for('login') }}" class="login-link">Already a user? Login</a>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
-    
-    <footer>
+
+    <!-- Your existing scripts -->
+    <script>
+        /* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
+        function myFunction() {
+          var x = document.getElementById("myTopnav");
+          if (x.className === "topnav") {
+            x.className += " responsive";
+          } else {
+            x.className = "topnav";
+          }
+        }
+    </script>
+
+     <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var logo = document.getElementById('logo');
+      var body = document.querySelector('main');
+
+      logo.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevents the default link behavior
         
-    </footer>
+        // Toggle the classes on both body and header
+        if (body.classList.contains('logo-clicked')) {
+          body.classList.remove('logo-clicked');
+          body.classList.add('logo-clicked-2');
+          logo.classList.remove('logo-clicked');
+          logo.classList.add('logo-clicked-2');
+        } else if (body.classList.contains('logo-clicked-2')) {
+          body.classList.remove('logo-clicked-2');
+          logo.classList.remove('logo-clicked-2');
+          // Add logic for additional backgrounds or toggle back to default
+        } else {
+          body.classList.add('logo-clicked');
+          logo.classList.add('logo-clicked');
+        }
+      });
+    });
+     </script>
 </body>
-
-
-
-<script>
-    /* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
-function myFunction() {
-  var x = document.getElementById("myTopnav");
-  if (x.className === "topnav") {
-    x.className += " responsive";
-  } else {
-    x.className = "topnav";
-  }
-}
-</script>
-
- <script>
-document.addEventListener('DOMContentLoaded', function() {
-  var logo = document.getElementById('logo');
-  var body = document.querySelector('main');
-
-  logo.addEventListener('click', function(event) {
-    event.preventDefault(); // Prevents the default link behavior
-    
-    // Toggle the classes on both body and header
-    if (body.classList.contains('logo-clicked')) {
-      body.classList.remove('logo-clicked');
-      body.classList.add('logo-clicked-2');
-      logo.classList.remove('logo-clicked');
-      logo.classList.add('logo-clicked-2');
-    } else if (body.classList.contains('logo-clicked-2')) {
-      body.classList.remove('logo-clicked-2');
-      logo.classList.remove('logo-clicked-2');
-      // Add logic for additional backgrounds or toggle back to default
-    } else {
-      body.classList.add('logo-clicked');
-      logo.classList.add('logo-clicked');
-    }
-  });
-});
-
-
- </script>
-
 </html>
