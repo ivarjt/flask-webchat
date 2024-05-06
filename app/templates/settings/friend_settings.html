@@ -23,6 +23,33 @@
         list-style-type: none;
         padding: 0;
     }
+
+    .button-container {
+        display: flex;
+        align-items: center;
+    }
+
+    .styled-button {
+        background-color: #7289da;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-right: 5px; /* Add some margin to separate buttons */
+    }
+
+    .styled-button:hover {
+        background-color: #677bc4;
+    }
+
+    /* Specific styling for Remove, Reject, and Cancel Request buttons */
+    .remove-button,
+    .reject-button,
+    .cancel-request-button {
+        background-color: rgb(217, 86, 86);
+    }
 </style>
 
 <div class="section-container">
@@ -32,14 +59,12 @@
         <ul>
             {% for friend in friends %}
                 <li>{{ friend }}</li> <h1>{{ friend.id }}</h1>
-                <li>
+                <li class="button-container">
                     <form method="post" action="/remove_friend/{{ friend }}">
-                        <button type="submit">Remove</button>
+                        <button type="submit" class="styled-button remove-button">Remove</button>
                     </form>
-                </li>
-                <li>
                     <form method="post" action="/create_room/{{ friend }}">
-                        <button type="submit">DM</button>
+                        <button type="submit" class="styled-button">DM</button>
                     </form>
                 </li>
                 <hr>
@@ -53,9 +78,9 @@
             <ul>
                 {% for sent_request in sent_requests %}
                     <li>{{ sent_request }}</li>
-                    <li>
+                    <li class="button-container">
                         <form method="post" action="/cancel_friend_request/{{ sent_request }}">
-                            <button type="submit">Cancel Request</button>
+                            <button type="submit" class="styled-button cancel-request-button">Cancel Request</button>
                         </form>
                     </li>
                     <hr>
@@ -73,12 +98,14 @@
                 {% for request in incoming_requests %}
                     <div>
                         From: {{ request.sender.username }}
-                        <form method="post" action="/accept_friend_request/{{ request.id }}">
-                            <button type="submit">Accept</button>
-                        </form>
-                        <form method="post" action="/reject_friend_request/{{ request.id }}">
-                            <button type="submit">Reject</button>
-                        </form>
+                        <li class="button-container">
+                            <form method="post" action="/accept_friend_request/{{ request.id }}">
+                                <button type="submit" class="styled-button">Accept</button>
+                            </form>
+                            <form method="post" action="/reject_friend_request/{{ request.id }}">
+                                <button type="submit" class="styled-button reject-button">Reject</button>
+                            </form>
+                        </li>
                     </div>
                     <hr>
                 {% endfor %}
@@ -95,7 +122,7 @@
     <form method="post" action="">
         {{ form.hidden_tag() }}
         {{ form.username.label }} {{ form.username }}
-        {{ form.submit }}
+        <button type="submit" class="styled-button">Send Request</button>
     </form>
     
     {% with messages = get_flashed_messages() %}

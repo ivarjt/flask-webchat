@@ -15,6 +15,7 @@ def friends_settings():
     friends = Friendship.get_friends(current_user.id)
     sent_requests = Friendship.sent_friend_request(current_user.id)
     incoming_requests = current_user.get_incoming_friend_requests()
+    friend_data = Friendship.get_friends_with_image(current_user.id)
 
     form = FriendRequestForm()
     if form.validate_on_submit():
@@ -43,7 +44,7 @@ def friends_settings():
         else:
             flash("This username does not exist. Please try again.", "error")
 
-    return render_template('settings/friend_settings.html', friends=friends, sent_requests=sent_requests, incoming_requests=incoming_requests, form=form)
+    return render_template('settings/friend_settings.html', friends=friends, sent_requests=sent_requests, incoming_requests=incoming_requests, form=form, friend_data=friend_data)
 
 
 
