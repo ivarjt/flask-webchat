@@ -53,7 +53,7 @@ header {
   
   /* Add an active class to highlight the current page */
   .topnav a.active {
-    background-image: url(moose_icon_green.png); 
+    background-image: url(moose_icon_blue.png); 
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
@@ -69,8 +69,8 @@ header {
 
   .topnav a.split-right {
     float: right;
-    background-color: #1e5c60;
-    color: white;
+    background-color: var(--main-bg-color);
+    color: var(--main-bg-color);
   }
 
   .topnav a.nav-center {
@@ -86,12 +86,12 @@ header {
 }
 
 main {
-  background-color: #f8f8f8;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 30%;
   flex: 5 5 150px;
-  background-image: url('forest_background_green.png'); /* Set the default background image here */
+  background-image: url('forest_background_blue.png'); /* Set the default background image here */
+  
 }
 
 
@@ -181,7 +181,7 @@ footer {
 
 /* Additional background images for the logo click */
 main.logo-clicked {
-  background-image: url('forest_background_blue.png') !important; /* Ensure the path is correct */
+  background-image: url('forest_background_green.png') !important; /* Ensure the path is correct */
 }
 
 main.logo-clicked-2 {
@@ -189,7 +189,7 @@ main.logo-clicked-2 {
 }
 
 .topnav #logo.logo-clicked {
-  background-image: url('moose_icon_blue.png') !important;
+  background-image: url('moose_icon_green.png') !important;
 }
 
 .topnav #logo.logo-clicked-2 {
