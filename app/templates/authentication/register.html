@@ -1,34 +1,175 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='MooseFavicon.png') }}">
     <title>Register</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Your CSS styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        .bg-img {
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .bg-img:after {
+            position: absolute;
+            content: '';
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 999;
+            text-align: center;
+            padding: 60px 32px;
+            width: 370px;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.04);
+            box-shadow: -1px 4px 28px 0px rgba(0, 0, 0, 0.75);
+        }
+
+        .content header {
+            color: white;
+            font-size: 33px;
+            font-weight: 600;
+            margin: 0 0 35px 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .field {
+            position: relative;
+            height: 45px;
+            width: 100%;
+            display: flex;
+            background: rgba(255, 255, 255, 0.94);
+        }
+
+        .field span {
+            color: #222;
+            width: 40px;
+            line-height: 45px;
+        }
+
+        .field input {
+            height: 100%;
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #222;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .space {
+            margin-top: 16px;
+        }
+
+        .field input[type="submit"] {
+            background: #3498db;
+            border: 1px solid #2691d9;
+            color: white;
+            font-size: 18px;
+            letter-spacing: 1px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .field input[type="submit"]:hover {
+            background: #2691d9;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 10px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .login-link {
+            color: white;
+            margin-top: 20px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .login-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h1>Register Page</h1>
+<div class="bg-img">
+    <div class="content">
+        <header>Register</header>
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <div class="field">
+                <span class="fa fa-user"></span>
+                {{ form.username(class="pass-key", placeholder="Username") }}
+            </div>
+            <div class="field space">
+                <span class="fa fa-envelope"></span>
+                {{ form.email(class="pass-key", placeholder="Email") }}
+            </div>
+            <div class="field space">
+                <span class="fa fa-lock"></span>
+                {{ form.password(class="pass-key", placeholder="Password") }}
+            </div>
+            <div class="field">
+                {{ form.submit(class="submit") }}
+            </div>
+            {% if form.username.errors %}
+                <div class="error-message">{{ form.username.errors[0] }}</div>
+            {% endif %}
+            {% if form.email.errors %}
+                <div class="error-message">{{ form.email.errors[0] }}</div>
+            {% endif %}
+            {% if form.password.errors %}
+                <div class="error-message">{{ form.password.errors[0]|safe}}</div>
+            {% endif %}
+        </form>
+        <div class="login-link">
+            <a href="{{url_for('login')}}">Already have an account? Login now!</a>
+        </div>
+    </div>
+</div>
+<script>
+    // Your JavaScript code for random background
+    document.addEventListener("DOMContentLoaded", function () {
+        const bgImages = [
+            "static/forest_background_blue.png",
+            "static/forest_background_green.png",
+            "static/forest_background_orange.png"
+        ];
 
-    <form method="POST" action="">
-        {{ form.hidden_tag() }}
-        {{ form.username }}
-        {{ form.email }}
-        {{ form.password }}
-        {{ form.submit }}
-    </form>
+        const randomIndex = Math.floor(Math.random() * bgImages.length);
+        const randomBgImage = bgImages[randomIndex];
 
-    {% if form.username.errors %}
-        <div class="error-message">{{ form.username.errors[0] }}</div> <br>
-    {% endif %}
-
-
-    {% if form.email.errors %}
-        <div class="error-message">{{ form.email.errors[0] }}</div> <br>
-    {% endif %}
-
-    {% if form.password.errors %}
-        <div class="error-message">{{ form.password.errors[0]|safe}}</div> <br>
-    {% endif %}
-
-    <a href="{{url_for('login')}}">Already have an account? Login now!</a><br>
+        const bgImgElement = document.querySelector('.bg-img');
+        bgImgElement.style.backgroundImage = `url(${randomBgImage})`;
+    });
+</script>
 </body>
 </html>
