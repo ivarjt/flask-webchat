@@ -1,20 +1,301 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='MooseFavicon.png') }}">
     <title>Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Your CSS styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        .bg-img {
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .bg-img:after {
+            position: absolute;
+            content: '';
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 999;
+            text-align: center;
+            padding: 60px 32px;
+            width: 370px;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.04);
+            box-shadow: -1px 4px 28px 0px rgba(0, 0, 0, 0.75);
+        }
+
+        .content header {
+            color: white;
+            font-size: 33px;
+            font-weight: 600;
+            margin: 0 0 35px 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .field {
+            position: relative;
+            height: 45px;
+            width: 100%;
+            display: flex;
+            background: rgba(255, 255, 255, 0.94);
+        }
+
+        .field span {
+            color: #222;
+            width: 40px;
+            line-height: 45px;
+        }
+
+        .field input {
+            height: 100%;
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #222;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .space {
+            margin-top: 16px;
+        }
+
+        .show {
+            position: absolute;
+            right: 13px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #222;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .pass-key[type="text"] ~ .show,
+        .pass-key[type="password"]:not(:placeholder-shown) ~ .show {
+            display: block;
+        }
+
+        .pass-key[type="password"] ~ .show {
+            display: none;
+        }
+
+        .pass {
+            text-align: left;
+            margin: 10px 0;
+        }
+
+        .pass a {
+            color: white;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .pass:hover a {
+            text-decoration: underline;
+        }
+
+        .field input[type="submit"] {
+            background: #3498db;
+            border: 1px solid #2691d9;
+            color: white;
+            font-size: 18px;
+            letter-spacing: 1px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .field input[type="submit"]:hover {
+            background: #2691d9;
+        }
+
+        .login {
+            color: white;
+            margin: 20px 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .links {
+            display: flex;
+            cursor: pointer;
+            color: white;
+            margin: 0 0 20px 0;
+        }
+
+        .facebook, .instagram {
+            width: 100%;
+            height: 45px;
+            line-height: 45px;
+            margin-left: 10px;
+        }
+
+        .facebook {
+            margin-left: 0;
+            background: #4267B2;
+            border: 1px solid #3e61a8;
+        }
+
+        .instagram {
+            background: #E1306C;
+            border: 1px solid #df2060;
+        }
+
+        .facebook:hover {
+            background: #3e61a8;
+        }
+
+        .instagram:hover {
+            background: #df2060;
+        }
+
+        .links i {
+            font-size: 17px;
+        }
+
+        i span {
+            margin-left: 8px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .signup {
+            font-size: 15px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .signup a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .signup a:hover {
+            text-decoration: underline;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Login Page</h1>
+<div class="bg-img">
+    <div class="content">
+        <header>Login</header>
+        <form method="POST" action="{{ url_for('login') }}" id="loginForm">
+            {{ form.hidden_tag() }}
+            <div class="field">
+                <span class="fa fa-user"></span>
+                {{ form.email(class="pass-key", placeholder="Email") }}
+            </div>
+            <div class="field space">
+                <span class="fa fa-lock"></span>
+                {{ form.password(class="pass-key", placeholder="Password") }}
+                <span class="show">SHOW</span>
+            </div>
+            <div class="field">
+                {{ form.submit(class="submit") }}
+            </div>
+            {% if form.errors %}
+            <div class="error">
+                {% for field, errors in form.errors.items() %}
+                    {% for error in errors %}
+                        {{ error }}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            {% endif %}
+        </form>
+       <br>
+        <div class="signup">
+            Don't have an account?
+            <a href="{{ url_for('register') }}">Sign up Now</a>
+        </div>
+    </div>
+</div>
+<script>
+    // Your JavaScript code
+    document.addEventListener("DOMContentLoaded", function () {
+        const bgImages = [
+            "static/forest_background_blue.png",
+            "static/forest_background_green.png",
+            "static/forest_background_orange.png"
+        ];
 
-    <form method="POST" action="">
-        {{ form.hidden_tag() }}
-        {{ form.email }}
-        {{ form.password }}
-        {{ form.submit }}
-    </form>
+        const randomIndex = Math.floor(Math.random() * bgImages.length);
+        const randomBgImage = bgImages[randomIndex];
 
-    <a href="{{url_for('register')}}">Don't have an account? Register now!</a><br>
+        const bgImgElement = document.querySelector('.bg-img');
+        bgImgElement.style.backgroundImage = `url(${randomBgImage})`;
+    });
+
+    const pass_field = document.querySelector('.pass-key[type="password"]');
+    const showBtn = document.querySelector('.show');
+
+    // Show button when password field is not empty
+    pass_field.addEventListener('input', function () {
+        if (pass_field.value.trim() !== "") {
+            showBtn.style.display = "block";
+        } else {
+            showBtn.style.display = "none";
+        }
+    });
+
+    showBtn.addEventListener('click', function () {
+        if (pass_field.type === "password") {
+            pass_field.type = "text";
+            showBtn.textContent = "HIDE";
+            showBtn.style.color = "#3498db";
+        } else {
+            pass_field.type = "password";
+            showBtn.textContent = "SHOW";
+            showBtn.style.color = "#222";
+        }
+    });
+
+    // Form validation
+    document.getElementById('loginForm').addEventListener('submit', function (event) {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        if (!isValidEmail(email)) {
+            alert('Please enter a valid email address.');
+            event.preventDefault();
+        }
+
+        // You can add more validation here if needed
+
+    });
+
+    // Email validation function
+    function isValidEmail(email) {
+        // Very basic email validation for demonstration purposes
+        return /\S+@\S+\.\S+/.test(email);
+    }
+</script>
 </body>
 </html>
