@@ -160,6 +160,21 @@
             object-fit: cover; /* Ensure the image covers the circular container */
             margin-right: 10px; /* Adjust spacing between image and button */
         }
+        .friend-item form {
+            display: flex; /* Add this line */
+            align-items: center; /* Add this line */
+        }
+        #settings-button {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: red;
+            border: none;
+            border-radius: 0;
+        }
+
+
     </style>
 </head>
 <body>
@@ -180,6 +195,7 @@
                 <hr>
                 {% endfor %}
             </ul>
+            <button id="settings-button" onclick="window.location.href = '{{ url_for('account_settings') }}'">Settings</button>
         </div>
         <div id="chat">
             <div id="messages">
@@ -212,7 +228,7 @@
         const room_id = "{{ room_id }}";
     
         const socket = io(
-            "http://192.168.68.65:5000/", {
+            "http://192.168.152.24:5000/", {
                 auth: {
                     token: "123"
                 }
@@ -230,11 +246,10 @@
         socket.on("message", function (value) {
             let { username, message } = value;
             const css = username === myUsername ? "my-message" : "other-message";
-            message = `${username}: ${message}`;
+            message = `<strong>${username}</strong>: ${message}`; // Wrap username in <strong> tags
             const messageElement = `<li class="message ${css}">${message}</li>`;
             document.getElementById("messages").insertAdjacentHTML("afterbegin", messageElement);
         });
-
     
         document.getElementById("send-button").addEventListener("click", function () {
             const message = document.getElementById("message-input").value;
@@ -259,6 +274,13 @@
         document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("room-input").value = room_id;
             document.getElementById("join-button").click();
+        });
+
+        document.getElementById("message-input").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // Prevent default behavior of Enter key
+                document.getElementById("send-button").click(); // Simulate click on send button
+            }
         });
     </script>
 </body>
