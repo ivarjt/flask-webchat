@@ -1,5 +1,5 @@
 from app import app, db
-from flask import render_template
+from flask import render_template, redirect, url_for
 from flask_login import current_user
 
 @app.route("/")
@@ -11,13 +11,13 @@ def home():
     if the user is not logged in, it will render the homepage and say that the user is not logged in
     """
     if current_user.is_authenticated:
-        return render_template("home.html", user=current_user)
-    return render_template("home.html", user=None)
+        return redirect(url_for("friends_settings"))
+    return render_template("new_home.html", user=None)
 
 
 @app.route("/new_home")
 def new_home():
-    return render_template("new_home.html")
+    return redirect(url_for("home"))
 
 #DEBUG ROUTES
 @app.route("/layout")

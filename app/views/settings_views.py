@@ -1,9 +1,9 @@
-from app import app
+from app import app, bcrypt, db
 from flask import render_template, request, redirect, url_for, flash
 from ..models import db, Friendship, User
 from flask_login import current_user
 from ..utils.helpers import get_profile_picture
-from ..forms import FriendRequestForm
+from ..forms import FriendRequestForm, ChangePasswordForm
 
 @app.route("/settings")
 @app.route("/settings/account")
@@ -46,7 +46,41 @@ def friends_settings():
 
     return render_template('settings/friend_settings.html', friends=friends, sent_requests=sent_requests, incoming_requests=incoming_requests, form=form, friend_data=friend_data)
 
+@app.route("/settings/change_password", methods=['GET', 'POST'])
+def change_password():
+    form = ChangePasswordForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(id=current_user.id).first()
+        #FIXME: KOLLA SÅ GAMMLA LÖSENORDET STÄMMER MED DET I DATABASEN
+        old_password_db_enc = user.password
+        old_password_form = form.old_password.data
+        new_password = form.new_password.data
+        
+        if bcrypt.check_password_hash(old_password_db_enc, form.old_password.data):
+            # Update the user's password in the database
+            user.password = bcrypt.generate_password_hash(form.new_password.data)
+            db.session.commit()
+            flash("Password updated successfully!", "success")
+        else:
+            flash("The password you entered is incorrect. Please try again.", "error")
+        
+        print_sexy(old_password_form, old_password_db_enc, new_password) #FIXME: REMOVE THIS LATER, DEBUG FUNCTION
+        
 
+    return render_template('settings/change_password_settings.html', form=form)
+
+#FIXME: REMOVE THIS LATER, DEBUG FUNCTION
+def print_sexy(old_pass, old_pass_enc, new_pass):
+    print("-"*50)
+    print(f"Your old password is [TYPED]: {old_pass}") # The one you typed in the form
+    print(f"Your old password is [ENC]: {old_pass_enc}") # The one stored in the database (Encrypted)
+    print(f"Your new password is: {new_pass}") # The new password you typed in the form
+    print("-"*50)
+
+
+@app.route("/password_updated", methods=['GET', 'POST'])
+def password_updated():
+    return "<h1>Password updated successfully!</h1>" #FIXME: to proper route or remove
 
 @app.route("/update_image_link", methods=['POST'])
 def update_image_link():

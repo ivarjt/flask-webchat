@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings</title>
     <style>
-
         * {
             font-family: 'Cascadia Code' ,sans-serif;
         }
@@ -71,13 +70,8 @@
             <ul>
                 <li><a href="{{url_for('account_settings')}}">My Account</a></li>
                 <li><a href="{{url_for('friends_settings')}}">Friends</a></li>
-                <li><a href="#">Setting 3</a></li>
-                <li><a href="#">Setting 4</a></li>
-                <li><a href="#">Setting 5</a></li>
-                <li><a href="#">Setting 6</a></li>
-                <li><a href="#">Setting 7</a></li>
-                <li><a href="#">Setting 8</a></li>
-                <li><a href="#">Setting 9</a></li>
+                <li><a href="{{url_for('change_password')}}">Change Password</a></li>
+                <li><a href="{{url_for('logout')}}" style="color:red">Logout</a></li>
                 {% if current_user.is_superuser %}
                     <li><a href="{{ url_for('admin_redirect') }}" style="color: yellow;">Admin Page</a></li>
                 {% endif %}
