@@ -29,8 +29,13 @@ class LoginForm(FlaskForm):
     password = PasswordField("Password", validators=[InputRequired(), Length(min=8, max=100)], render_kw={"placeholder": "Password"})
     submit = SubmitField("Login")
 
+class ChangePasswordForm(FlaskForm):
+    old_password = PasswordField("Old Password", validators=[InputRequired(), Length(min=8, max=100)], render_kw={"placeholder": "Old Password"})
+    new_password = PasswordField("New Password", validators=[InputRequired(), Length(min=8, max=100), validate_password], render_kw={"placeholder": "New Password"})
+    submit = SubmitField("Change Password")
+
 class FriendRequestForm(FlaskForm):
-    username = StringField("Username", validators=[InputRequired(), Length(min=5, max=20)], render_kw={"placeholder": "Username"})
+    username = StringField("Username", validators=[InputRequired(), Length(min=5, max=20)], render_kw={"placeholder": "Enter Username"})
     submit = SubmitField("Send Friend Request")
 
 

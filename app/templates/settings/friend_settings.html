@@ -11,6 +11,13 @@
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     }
 
+    .send-friend-content {
+        border-radius: 10px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
     /* Styling for sections */
     .section {
         margin-bottom: 20px;
@@ -135,7 +142,8 @@
     </div>
 
 </div>
-
+<br>
+<div class="send-friend-content">
 <div class="section">
     <h1>Send Friend Request</h1>
     <form method="post" action="">
@@ -153,6 +161,7 @@
             </ul>
         {% endif %}
     {% endwith %}
+</div>
 </div>
 
 {% endblock %}

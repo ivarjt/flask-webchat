@@ -63,12 +63,12 @@
         }
 
         .btn-primary {
-            background-color: #007bff;
+            background-color: #7289da;
             color: #fff;
         }
 
         .btn-primary:hover {
-            background-color: #0056b3;
+            background-color: #677bc4;
         }
 
         .btn-secondary {
@@ -93,7 +93,7 @@
     <div class="account-container">
         <h1 class="account-heading">My Account</h1>
         {% if current_user.is_superuser %}
-            <h3>You are logged in as a superuser.</h3>
+            <h3 style="color:forestgreen">You are logged in as a superuser.</h3>
         {% endif %}
 
         {% if user %}
@@ -116,9 +116,5 @@
                 <input type="submit" value="Update Profile Picture" class="btn btn-primary">
             </form>
         {% endif %}
-        
-        <form action="{{ url_for('home') }}" method="post"> <!-- TODO: Reset Password -->
-            <input type="submit" value="Reset Password" class="btn btn-secondary">
-        </form>
     </div>
 {% endblock %}
