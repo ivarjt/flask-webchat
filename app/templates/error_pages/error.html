@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ error_code }} Error</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+        .error-card {
+            background-color: rgba(255, 255, 255, 0.5); /* Transparent white */
+            border-radius: 10px;
+            padding: 40px; /* Increased padding */
+            text-align: center;
+            max-width: 600px; /* Maximum width of the card */
+            width: 80%; /* Set width to 80% of the viewport */
+        }
+        .error-container {
+            text-align: center;
+        }
+    </style>
+    <script>
+        // Array of background image URLs
+        var backgroundImages = [
+            'https://raw.githubusercontent.com/ivarjt/flask-webchat-media/main/wallpapers/forest_background_blue.png',
+            'https://raw.githubusercontent.com/ivarjt/flask-webchat-media/main/wallpapers/forest_background_green.png',
+            'https://raw.githubusercontent.com/ivarjt/flask-webchat-media/main/wallpapers/forest_background_orange.png'
+        ];
+
+        // Function to pick a random background image
+        function pickRandomBackground() {
+            var randomIndex = Math.floor(Math.random() * backgroundImages.length);
+            document.body.style.backgroundImage = 'url("' + backgroundImages[randomIndex] + '")';
+        }
+
+        // Call the function when the page loads
+        window.onload = pickRandomBackground;
+    </script>
+</head>
+<body>
+    <div class="error-card">
+        <div class="error-container">
+            <h1>{{ error_code }} Error</h1>
+            {% if error_code == 403 %}
+                <p>Sorry, you do not have permission to access this resource.</p>
+            {% elif error_code == 404 %}
+                <p>Sorry, the page you are looking for does not exist.</p>
+            {% elif error_code == 500 %}
+                <p>Sorry, something went wrong on our end. We are working to fix it.</p>
+            {% else %}
+                <p>Oops! Something went wrong.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
