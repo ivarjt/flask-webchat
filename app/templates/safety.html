@@ -79,7 +79,7 @@
         <div class="topnav" id="myTopnav">
           <a href="#" class="active" id="logo">Logo</a>
           <a href="{{url_for('about')}}"class="nav-center">About</a>
-          <a href="{{url_for('safety')}}"class="nav-center">Safety</a>
+          <a href="{{url_for('home')}}" class="nav-center">Home</a>
           <a href="{{url_for('contact')}}" class="nav-center">Contact</a>
           <a href="#" class="split-right">Login</a>
           <a href="javascript:void(0);" class="icon" onclick="myFunction()">
@@ -94,16 +94,7 @@
             <!-- Existing main content -->
             
             <!-- New card -->
-            <div class="card">
-                <div class="content">
-                    <header>Crowned</header>
-                    <p>Join our community and start chatting with others. Connect with people who share your interests.</p>
-                    <div class="buttons">
-                        <a href="{{ url_for('register') }}" class="button">Register Now</a>
-                        <a href="{{ url_for('login') }}" class="login-link">Already a user? Login</a>
-                    </div>
-                </div>
-            </div>
+            
         </main>
     </div>
 

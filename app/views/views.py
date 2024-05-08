@@ -19,7 +19,15 @@ def home():
 def new_home():
     return redirect(url_for("home"))
 
-#DEBUG ROUTES
-@app.route("/layout")
-def layout():
-    return render_template("layout.html")
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+@app.route("/safety")
+def safety():
+    return render_template("safety.html")
+

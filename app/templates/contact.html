@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='MooseFavicon.png') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='new_home.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Crowned</title>
+
+    <style>
+        /* Reset margin for header */
+        header {
+            margin-bottom: 0;
+        }
+
+
+        .container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            margin: 0 100px;
+            width: 400px;
+            border-radius: 12px;
+            box-shadow: -1px 4px 28px 0px rgba(0, 0, 0, 0.75);
+            background: rgba(106, 106, 106, 0.7);
+            overflow: hidden;
+            margin-top: 30px;
+        }
+
+        .card .content {
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .card header {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .card .buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card .button {
+            display: inline-block;
+            background-color: #3498db;
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .card .button:hover {
+            background-color: #2684d9;
+        }
+
+        .card .login-link {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .card .login-link:hover {
+            text-decoration: underline;
+        }
+
+        body {
+            margin-top: 0px;
+            background: #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="topnav" id="myTopnav">
+            <a href="#" class="active" id="logo">Logo</a>
+            <a href="{{url_for('about')}}" class="nav-center">About</a>
+            <a href="{{url_for('safety')}}" class="nav-center">Safety</a>
+            <a href="{{url_for('home')}}" class="nav-center">Home</a>
+            <a href="#" class="split-right">Login</a>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+    </header>
+
+    <div class="main">
+        <br><br><br>
+        <main>
+            <!-- New card -->
+            <div class="container">
+                <div class="card">
+                    <img src="https://64.media.tumblr.com/be3de4863dff3bc5edf3ce11831e35f3/tumblr_pnyefmFW4e1ubom6s_500.jpg"
+                        alt="Ivar Thor">
+                    <div class="content">
+                        <header>Ivar Thor</header>
+                        <p>Student</p>
+                        <div class="buttons">
+                            <a href="https://github.com/ivarjt" class="button"><i class="fa fa-github" aria-hidden="true"></i> View Github</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://64.media.tumblr.com/be3de4863dff3bc5edf3ce11831e35f3/tumblr_pnyefmFW4e1ubom6s_500.jpg"
+                        alt="Team Member 2">
+                    <div class="content">
+                        <header>Emil Andersson</header>
+                        <p>Student</p>
+                        <div class="buttons">
+                            <a href="https://github.com/Emil-andersson1" class="button"><i class="fa fa-github" aria-hidden="true"></i> View Github</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://64.media.tumblr.com/be3de4863dff3bc5edf3ce11831e35f3/tumblr_pnyefmFW4e1ubom6s_500.jpg"
+                        alt="Team Member 3">
+                    <div class="content">
+                        <header>Lucas Pace</header>
+                        <p>Student</p>
+                        <div class="buttons">
+                            <a href="https://github.com/RRex20" class="button"><i class="fa fa-github" aria-hidden="true"></i> View Github</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Your existing scripts -->
+    <script>
+        /* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
+        function myFunction() {
+            var x = document.getElementById("myTopnav");
+            if (x.className === "topnav") {
+                x.className += " responsive";
+            } else {
+                x.className = "topnav";
+            }
+        }
+    </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var logo = document.getElementById('logo');
+      var body = document.querySelector('main');
+
+      logo.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevents the default link behavior
+        
+        // Toggle the classes on both body and header
+        if (body.classList.contains('logo-clicked')) {
+          body.classList.remove('logo-clicked');
+          body.classList.add('logo-clicked-2');
+          logo.classList.remove('logo-clicked');
+          logo.classList.add('logo-clicked-2');
+        } else if (body.classList.contains('logo-clicked-2')) {
+          body.classList.remove('logo-clicked-2');
+          logo.classList.remove('logo-clicked-2');
+          // Add logic for additional backgrounds or toggle back to default
+        } else {
+          body.classList.add('logo-clicked');
+          logo.classList.add('logo-clicked');
+        }
+      });
+    });
+     </script>
+</body>
+
+</html>
