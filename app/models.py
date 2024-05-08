@@ -3,6 +3,7 @@ from datetime import datetime
 from flask_login import UserMixin
 from sqlalchemy.orm import relationship
 from sqlalchemy import or_
+import uuid
 
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -20,7 +21,13 @@ class Room(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user1_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     user2_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    uuid = db.Column(db.String(255), nullable=False, unique=True)
     date_created = db.Column(db.Date, default=datetime.utcnow)
+    
+    def __init__(self, user1_id, user2_id):
+        self.user1_id = user1_id
+        self.user2_id = user2_id
+        self.uuid = str(uuid.uuid4())  # Generate a random UUID
     
     @staticmethod
     def room_exists(user1_id, user2_id):

@@ -62,25 +62,17 @@ def change_password():
             db.session.commit()
             flash("Password updated successfully!", "success")
         else:
-            flash("The password you entered is incorrect. Please try again.", "error")
-        
-        print_sexy(old_password_form, old_password_db_enc, new_password) #FIXME: REMOVE THIS LATER, DEBUG FUNCTION
-        
+            flash("The password you entered is incorrect. Please try again.", "error")        
 
     return render_template('settings/change_password_settings.html', form=form)
 
-#FIXME: REMOVE THIS LATER, DEBUG FUNCTION
+# Giga chad function right here ( ͡° ͜ʖ ͡°)
 def print_sexy(old_pass, old_pass_enc, new_pass):
     print("-"*50)
     print(f"Your old password is [TYPED]: {old_pass}") # The one you typed in the form
     print(f"Your old password is [ENC]: {old_pass_enc}") # The one stored in the database (Encrypted)
     print(f"Your new password is: {new_pass}") # The new password you typed in the form
     print("-"*50)
-
-
-@app.route("/password_updated", methods=['GET', 'POST'])
-def password_updated():
-    return "<h1>Password updated successfully!</h1>" #FIXME: to proper route or remove
 
 @app.route("/update_image_link", methods=['POST'])
 def update_image_link():
