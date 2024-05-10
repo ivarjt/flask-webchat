@@ -11,7 +11,7 @@ def home():
     if the user is not logged in, it will render the homepage and say that the user is not logged in
     """
     if current_user.is_authenticated:
-        return redirect(url_for("friends_settings"))
+        return redirect(url_for("account_settings"))
     return render_template("new_home.html", user=None)
 
 

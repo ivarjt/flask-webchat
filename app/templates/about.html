@@ -13,81 +13,30 @@
         header {
             margin-bottom: 0;
         }
-        
 
-        .card {
-            margin: 0 auto 20px; /* Center the card */
-            margin-top: 50px;
-            width: 90%; /* Make the card wider */
-            max-width: 600px; /* Set maximum width */
-            border-radius: 12px; /* Round the corners */
-            box-shadow: -1px 4px 28px 0px rgba(0, 0, 0, 0.75);
-            background: rgba(106, 106, 106, 0.7);
-        }
-
-        .card .content {
-            padding: 30px; /* Increase padding */
-        }
-
-        .card header {
-            font-size: 28px; /* Larger font size */
-            font-weight: bold;
-            margin-bottom: 20px;
-            text-align: center; /* Center align header */
-        }
-
-        .card p {
-            font-size: 16px; /* Larger font size for text */
-            line-height: 1.6; /* Increase line height */
-            margin-bottom: 30px; /* Increase margin */
-        }
-
-        .card .buttons {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .card .button {
-            display: inline-block;
-            background-color: #3498db;
+        .topnav .icon {
             color: #fff;
-            text-decoration: none;
-            padding: 12px 24px; /* Increase padding */
-            border-radius: 6px; /* Round the corners */
-            transition: background-color 0.3s;
-            font-size: 18px; /* Larger font size */
-            margin-bottom: 15px; /* Add margin between buttons */
+            /* Adjust as needed */
+            position: absolute;
+            right: 10px;
+            top: 10px;
         }
 
-        .card .button:hover {
-            background-color: #2684d9;
-        }
-
-        .card .login-link {
-            color: white;
-            text-decoration: none;
-            font-size: 16px; /* Larger font size */
-        }
-
-        .card .login-link:hover {
-            text-decoration: underline;
-        }
-        
-        /* Custom CSS for About Us section */
-        .about-us{
+        .about-us {
             height: 100vh;
             width: 100%;
             padding: 90px 0;
-            background: #ddd;
+            background-image: url("https://raw.githubusercontent.com/ivarjt/flask-webchat-media/main/wallpapers/forest_background_blue.png");
+            background-size: cover;
+            background-position: center;
         }
-        
-        .pic{
+
+        .pic {
             height: auto;
-            width:  302px;
+            width: 302px;
         }
-        
-        .about{
+
+        .about {
             width: 1130px;
             max-width: 85%;
             margin: 0 auto;
@@ -95,38 +44,38 @@
             align-items: center;
             justify-content: space-around;
         }
-        
-        .text{
+
+        .text {
             width: 540px;
         }
-        
-        .text h2{
+
+        .text h2 {
             font-size: 90px;
             font-weight: 600;
             margin-bottom: 10px;
         }
-        
-        .text h5{
+
+        .text h5 {
             font-size: 22px;
             font-weight: 500;
             margin-bottom: 20px;
         }
-        
-        span{
+
+        span {
             color: #4070f4;
         }
-        
-        .text p{
+
+        .text p {
             font-size: 18px;
             line-height: 25px;
             letter-spacing: 1px;
         }
-        
-        .data{
+
+        .data {
             margin-top: 30px;
         }
-        
-        .hire{
+
+        .hire {
             font-size: 18px;
             background: #4070f4;
             color: #fff;
@@ -136,8 +85,8 @@
             border-radius: 6px;
             transition: 0.5s;
         }
-        
-        .hire:hover{
+
+        .hire:hover {
             background: #000;
             border: 1px solid #4070f4;
         }
@@ -165,10 +114,10 @@
                     <img src="https://wallpapers.com/images/hd/pfp-pictures-cqjs3osvdljthh53.jpg" class="pic">
                     <div class="text">
                         <h2>About Us</h2>
-                        <h5>Front-end Developer & <span>Designer</span></h5>
+                        <h5>Crowned Authors</h5>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita natus ad sed harum itaque ullam enim quas, veniam accusantium, quia animi id eos adipisci iusto molestias asperiores explicabo cum vero atque amet corporis! Soluta illum facere consequuntur magni. Ullam dolorem repudiandae cumque voluptate consequatur consectetur, eos provident necessitatibus reiciendis corrupti!</p>
                         <div class="data">
-                            <a href="#" class="hire">Hire Me</a>
+                            <a href="https://github.com/ivarjt/flask-webchat" class="hire">Our github page</a>
                         </div>
                     </div>
                 </div>
@@ -187,32 +136,28 @@
             x.className = "topnav";
           }
         }
-    </script>
 
-     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      var logo = document.getElementById('logo');
-      var body = document.querySelector('main');
+        // Array of wallpaper URLs
+        var wallpapers = [
+            "https://raw.githubusercontent.com/ivarjt/flask-webchat-media/main/wallpapers/forest_background_blue.png",
+            "https://raw.githubusercontent.com/ivarjt/flask-webchat-media/main/wallpapers/forest_background_green.png",
+            "https://raw.githubusercontent.com/ivarjt/flask-webchat-media/main/wallpapers/forest_background_orange.png"
+        ];
 
-      logo.addEventListener('click', function(event) {
-        event.preventDefault(); // Prevents the default link behavior
-        
-        // Toggle the classes on both body and header
-        if (body.classList.contains('logo-clicked')) {
-          body.classList.remove('logo-clicked');
-          body.classList.add('logo-clicked-2');
-          logo.classList.remove('logo-clicked');
-          logo.classList.add('logo-clicked-2');
-        } else if (body.classList.contains('logo-clicked-2')) {
-          body.classList.remove('logo-clicked-2');
-          logo.classList.remove('logo-clicked-2');
-          // Add logic for additional backgrounds or toggle back to default
-        } else {
-          body.classList.add('logo-clicked');
-          logo.classList.add('logo-clicked');
+        // Counter for current wallpaper
+        var currentWallpaper = 0;
+
+        // Function to change wallpaper
+        function changeWallpaper() {
+            document.querySelector('.about-us').style.backgroundImage = 'url("' + wallpapers[currentWallpaper] + '")';
+            currentWallpaper = (currentWallpaper + 1) % wallpapers.length;
         }
-      });
-    });
-     </script>
+
+        // Add event listener to the logo for wallpaper change
+        document.getElementById('logo').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevents the default link behavior
+            changeWallpaper();
+        });
+    </script>
 </body>
 </html>
