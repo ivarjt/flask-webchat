@@ -1,4 +1,4 @@
-from app import admin, User, db, Friendship, Room
+from app import admin, User, db, Friendship, Room, Message
 from flask_admin.contrib.sqla import ModelView
 from app import app
 from flask_login import current_user
@@ -34,6 +34,7 @@ class CustomModelView(ModelView):
 admin.add_view(CustomModelView(User, db.session))
 admin.add_view(CustomModelView(Friendship, db.session))
 admin.add_view(CustomModelView(Room, db.session))
+admin.add_view(CustomModelView(Message, db.session))
 
 
 @app.route("/admin/redirect", methods=['GET', 'POST'])
